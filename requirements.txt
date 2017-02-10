@@ -1,0 +1,3 @@
+####### requirements.txt for Capstone-SIS #######
+RPi.GPIO
+
