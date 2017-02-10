@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
-"""Script to chain together functions to run the SIS."""
+"""Main script to chain together functions of the SIS.
+
+"""
+
 import sys
 
 def main():
