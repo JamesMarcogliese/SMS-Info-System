@@ -12,11 +12,12 @@ import time
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
+ser = serial.Serial('/dev/ttyAMA0', 9600, timeout=1)
 
-def power_on():
-	"""Turns the SIM900 GSM module ON.
+def power_toggle():
+	"""Toggles the SIM900 GSM module ON or OFF.
 	
-	Powers ON the SIM900 GSM shield via GPIO pin
+	Powers ON or OFF the SIM900 GSM shield via GPIO pin
 	on the RPi.
 	
 	Args: None.
@@ -28,6 +29,8 @@ def power_on():
 	
 	GPIO.setup(11, GPIO.OUT)
 	GPIO.output(11, GPIO.HIGH)
+	time.sleep(2);
+	GPIO.output(11, GPIO.LOW)
 	
 	return
 	
@@ -45,20 +48,14 @@ def send_sms(message, address):
 	
 	Raises: None.
 	"""
+	if(ser.isOpen() == False):
+		ser.open()
 	
-	ser = serial.Serial('/dev/ttyAMA0', 9600, timeout=1)
-	ser.open()
-	
-	ser.write("at\r");	#Not sure what exactly this returns, cannot find AT command for this.
-	time.sleep(3);
-	line=ser.read(size=64);
-	print line;
-	
-	ser.write("AT+CMGS=%s\r" % address)
-	time.sleep(3)
-	ser.write("%s\r" % message)
-	time.sleep(3)
-	ser.write(chr(26))	# This writes a (^Z). Not sure why.
+	ser.write('AT+CMGS="+%s"\r' % address)	# Destination address
+	time.sleep(1)
+	ser.write("%s\r" % message) # Message
+	time.sleep(1)
+	ser.write(chr(26))	# End of text requires (^Z). 
 	ser.close()
 	
 	return
@@ -96,7 +93,7 @@ def power_reset():
 	
 	GPIO.setup(12, GPIO.OUT)
 	GPIO.output(12, GPIO.HIGH)
-	time.sleep(1);
+	time.sleep(2);
 	GPIO.output(12, GPIO.LOW)
 	
 	return
