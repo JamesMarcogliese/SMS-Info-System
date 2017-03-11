@@ -1,0 +1,24 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="620" measuredH="579" mockupW="313" mockupH="554">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::iPhone" x="307" y="25" w="313" h="554" measuredW="282" measuredH="510" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::TitleWindow" x="340" y="133" w="246" h="357" measuredW="450" measuredH="400" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>42</bottomheight>
+        <dragger>false</dragger>
+        <text>Messenger</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Tooltip" x="348" y="161" w="153" h="167" measuredW="160" measuredH="0" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>left</align>
+        <text>Welcome%20to%20the%20SMS%20Info%20System%21%0AReply%20with%20one%20of%20the%20option%20numbers%20below.%0A1%20-%20Weather%0A2%20-%20Directions%0A3%20-%20Places%0A4%20-%20News</text>
+        <tooltipDirection>NW</tooltipDirection>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Button" x="524" y="456" w="-1" h="-1" measuredW="54" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Send</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
