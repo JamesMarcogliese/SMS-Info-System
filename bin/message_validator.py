@@ -12,6 +12,7 @@ def generate_menu():       ## Your menu design here
     print "2. Directions"
     print "3. Places"
     print "4. News"
+    print "5. Gas Prices"
     print 15 * "-" , "Thank you for using SIS" , 15 * "-"
 
 
@@ -31,8 +32,10 @@ def validate_command(command):
     elif (command == "4 News" or command ==  "4 news" or command == "4"):
         #send command to format input.
         menu_option4_detail()
+    elif (command == "5 Gas Prices" or command == "5 gas prices" or command == "5"):
+        menu_option5_detail()
     else:
-        print ("Please choose the right option...")
+        print ("--- Please choose the right option from the menu ---")
         generate_menu()
   
         
@@ -58,6 +61,12 @@ def menu_option4_detail():
   print "Eg. 4 cnn-news"
   print "Eg. 4 ars-technica"
 
+
+def menu_option5_detail():
+    print "Follow the formatting below for a gas prices request:" 
+    print "5 Mississauga"
+
+
     	
 
-validate_command('1')
+validate_command('5')
