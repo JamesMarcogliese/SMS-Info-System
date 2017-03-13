@@ -51,8 +51,8 @@ class sim900:
 		
 		Closes the serial connection, turns off SIM900 board, and cleans up GPIO. 
 		"""
-		self.ser.close()
 		self.power_toggle()
+		self.ser.close()
 		GPIO.cleanup()
 		
 		return
