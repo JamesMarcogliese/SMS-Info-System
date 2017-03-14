@@ -1,5 +1,11 @@
 #!/usr/bin/python
 
+import serial
+import time
+import RPi.GPIO as GPIO
+import re
+from smsMessage import SMSMessage
+
 class SIM900:
 
 	"""SIM900 GSM Module class.
@@ -7,12 +13,6 @@ class SIM900:
 	This class controls the GSM module (SIM900) interfaces via 
 	physical serial and GPIO ports on the single-board computer. 
 	"""
-	
-	import serial
-	import time
-	import RPi.GPIO as GPIO
-	import re
-	import smsMessage
 	
 	ser = None
 	
@@ -51,13 +51,13 @@ class SIM900:
 		
 		Closes the serial connection, turns off SIM900 board, and cleans up GPIO. 
 		"""
-		self.power_toggle()
 		self.ser.close()
+		self.power_toggle()
 		GPIO.cleanup()
 		
 		return
 
-	def power_toggle():
+	def power_toggle(self):
 		"""Toggles the SIM900 GSM module ON or OFF.
 		
 		Powers ON or OFF the SIM900 GSM shield via GPIO pin
@@ -76,7 +76,7 @@ class SIM900:
 		
 		return
 		
-	def send_message(message, address):
+	def send_message(self, message, address):
 		"""Sends an SMS message.
 		
 		Pushes an SMS message onto the cellular 
@@ -92,14 +92,16 @@ class SIM900:
 		"""
 		
 		self.ser.reset_input_buffer()
-		
+
 		self.ser.write('AT+CMGS="+%s"\r' % address)	# Destination address
-		self.ser.write('%s\r' % message) # Message
+		time.sleep(1)
+		self.ser.write("%s" % message) # Message
+		time.sleep(1)
 		self.ser.write(chr(26))	# End of text requires (^Z). 
 		
 		return
 
-	def get_unread_messages():
+	def get_unread_messages(self):
 		"""Retrieves unread messages.
 		
 		Queries the storage on the SIM card for 
@@ -117,6 +119,7 @@ class SIM900:
 		self.ser.reset_input_buffer()	
 		
 		self.ser.write('AT+CMGL="REC UNREAD"\r')	# Request all unread messages
+		time.sleep(1)
 		response = self.ser.read(size = self.ser.in_waiting) # Read all unread messages
 		
 		if (response):	
@@ -128,14 +131,15 @@ class SIM900:
 				address_field = each.group(3).strip('"').replace('+1','')
 				arrival_timestamp = each.group(4)
 				message_body = each.group(5)
-				message = smsMessage(storage_index, message_status, address_field, arrival_timestamp, message_body)
+				message = SMSMessage(storage_index, message_status, address_field, arrival_timestamp, message_body)
 				message_list.append(message)
 			self.delete_messages()
 			return message_list
+			
 		return
 		
 
-	def delete_messages():
+	def delete_messages(self):
 		"""Deletes read and sent messages.
 		
 		Deletes all stored SMS messages from the SIM
