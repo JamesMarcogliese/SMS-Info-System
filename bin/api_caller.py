@@ -105,15 +105,13 @@ def directions_api(start, end):
     start = start.replace(" ", "+");
     #end = 'mcmaster university'
     end = end.replace(" ", "+");
-    #mode = driving(default), walking, transit, bicycling
-    #avoid = tolls, highways, ferries, indoor
-
+    
+    #mode {driving(default), walking, transit, bicycling}
+    #avoid {tolls, highways, ferries, indoor}    
     #mode = "driving"
     #avoid = "highways"
 
     url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + start + "&destination=" + end + "&key=" + api_key
-    print (url)
-
     r = requests.get(url).json()
 
     #Parsing---
