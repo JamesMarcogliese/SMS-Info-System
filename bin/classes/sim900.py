@@ -76,7 +76,7 @@ class SIM900:
 		
 		return
 		
-	def send_message(message, address):
+	def send_message(self, message, address):
 		"""Sends an SMS message.
 		
 		Pushes an SMS message onto the cellular 
@@ -99,7 +99,7 @@ class SIM900:
 		
 		return
 
-	def get_unread_messages():
+	def get_unread_messages(self):
 		"""Retrieves unread messages.
 		
 		Queries the storage on the SIM card for 
