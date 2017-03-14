@@ -4,7 +4,7 @@ import serial
 import time
 import RPi.GPIO as GPIO
 import re
-import smsMessage
+from smsMessage import SMSMessage
 
 class SIM900:
 
@@ -51,8 +51,8 @@ class SIM900:
 		
 		Closes the serial connection, turns off SIM900 board, and cleans up GPIO. 
 		"""
-		self.power_toggle()
 		self.ser.close()
+		self.power_toggle()
 		GPIO.cleanup()
 		
 		return
@@ -92,9 +92,11 @@ class SIM900:
 		"""
 		
 		self.ser.reset_input_buffer()
-		
+
 		self.ser.write('AT+CMGS="+%s"\r' % address)	# Destination address
-		self.ser.write('%s\r' % message) # Message
+		time.sleep(1)
+		self.ser.write("%s" % message) # Message
+		time.sleep(1)
 		self.ser.write(chr(26))	# End of text requires (^Z). 
 		
 		return
@@ -117,6 +119,7 @@ class SIM900:
 		self.ser.reset_input_buffer()	
 		
 		self.ser.write('AT+CMGL="REC UNREAD"\r')	# Request all unread messages
+		time.sleep(1)
 		response = self.ser.read(size = self.ser.in_waiting) # Read all unread messages
 		
 		if (response):	
@@ -128,10 +131,11 @@ class SIM900:
 				address_field = each.group(3).strip('"').replace('+1','')
 				arrival_timestamp = each.group(4)
 				message_body = each.group(5)
-				message = smsMessage(storage_index, message_status, address_field, arrival_timestamp, message_body)
+				message = SMSMessage(storage_index, message_status, address_field, arrival_timestamp, message_body)
 				message_list.append(message)
 			self.delete_messages()
 			return message_list
+			
 		return
 		
 
