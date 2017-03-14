@@ -57,7 +57,7 @@ class SIM900:
 		
 		return
 
-	def power_toggle():
+	def power_toggle(self):
 		"""Toggles the SIM900 GSM module ON or OFF.
 		
 		Powers ON or OFF the SIM900 GSM shield via GPIO pin
@@ -135,7 +135,7 @@ class SIM900:
 		return
 		
 
-	def delete_messages():
+	def delete_messages(self):
 		"""Deletes read and sent messages.
 		
 		Deletes all stored SMS messages from the SIM
