@@ -101,17 +101,17 @@ def places_info(type, address):
 #Making API call to directions API.
 def directions_api(start, end):
     api_key = directions_api_key
-    start = "square one, mississauga"
+    #start = "square one, mississauga"
     start = start.replace(" ", "+");
-    end = 'mcmaster university'
+    #end = 'mcmaster university'
     end = end.replace(" ", "+");
     #mode = driving(default), walking, transit, bicycling
     #avoid = tolls, highways, ferries, indoor
 
-    mode = "driving"
-    avoid = "highways"
+    #mode = "driving"
+    #avoid = "highways"
 
-    url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + start + "&destination=" + end + "&avoid=" + avoid + "&mode=" + mode + "&key=" + api_key
+    url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + start + "&destination=" + end + "&key=" + api_key
     print (url)
 
     r = requests.get(url).json()
