@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-class smsMessage:
+class SMSMessage:
 
 	"""SMS Message class.
 

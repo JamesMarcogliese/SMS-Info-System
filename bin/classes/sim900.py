@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-class sim900:
+class SIM900:
 
 	"""SIM900 GSM Module class.
 
