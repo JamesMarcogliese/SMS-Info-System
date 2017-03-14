@@ -1,5 +1,11 @@
 #!/usr/bin/python
 
+import serial
+import time
+import RPi.GPIO as GPIO
+import re
+import smsMessage
+
 class SIM900:
 
 	"""SIM900 GSM Module class.
@@ -7,12 +13,6 @@ class SIM900:
 	This class controls the GSM module (SIM900) interfaces via 
 	physical serial and GPIO ports on the single-board computer. 
 	"""
-	
-	import serial
-	import time
-	import RPi.GPIO as GPIO
-	import re
-	from classes.smsMessage import smsMessage
 	
 	ser = None
 	
