@@ -12,7 +12,7 @@ class SIM900:
 	import time
 	import RPi.GPIO as GPIO
 	import re
-	from classes.smsMessage import smsMessage
+	import smsMessage
 	
 	ser = None
 	
