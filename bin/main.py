@@ -11,7 +11,7 @@ from classes.smsMessage import SMSMessage
 import message_validator
 
 def main():
-    """Main entry point for the script."""
+	"""Main entry point for the script."""
 	
 	while True: # Loop Main
 		message_list = sim900.get_unread_messages() # Get messages if available
@@ -19,18 +19,12 @@ def main():
 			for i in message_list: # Validate each message
 				message_list[i] = message_validator.validate_command(message_list[i])
 				if (message_list[i].message_status == 'menu'): # If returning menu, send back to user.
-					sim900.send_message(message[i])
-				
+					sim900.send_message(message[i])		
 			# Format
-			
 			# API call
-			
 			# Format results
-			
 			# Send back to use
-		
 		time.sleep(5)
-	
     pass
 
 if __name__ == '__main__':
