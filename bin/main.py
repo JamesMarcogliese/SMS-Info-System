@@ -5,13 +5,26 @@
 """
 
 import sys
+import time
 from sim900 import SIM900
 
 def main():
     """Main entry point for the script."""
 	
 	while True:
-	
+		message_list = sim900.get_unread_messages() # Get messages if available
+		if (message_list):
+			# Validate
+			
+			# Format
+			
+			# API call
+			
+			# Format results
+			
+			# Send back to use
+		
+		time.sleep(5)
 	
     pass
 

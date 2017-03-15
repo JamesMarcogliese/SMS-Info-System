@@ -111,7 +111,7 @@ class SIM900:
 		Args: None.
 		
 		Returns: 
-		List of smsMessage objects
+		List of SMSMessage objects.
 		
 		Raises: None.
 		"""
@@ -136,7 +136,7 @@ class SIM900:
 			self.delete_messages()
 			return message_list
 			
-		return
+		return None
 		
 
 	def delete_messages(self):
