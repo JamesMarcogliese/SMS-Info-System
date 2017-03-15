@@ -15,7 +15,7 @@ menu = ("--Welcome to SIS--\n"
 		"3 Places\n"
 		"4 News\n"
 		"5 Gas Prices")
-	
+
 menu_option1_detail = ("Follow the format below for a weather request:\n"
 					   "Eg. 1 Oakville, Ontario")
 
@@ -36,10 +36,10 @@ menu_option4_detail = ("Follow the format below for a news request:\n"
 menu_option5_detail = ("Follow the format below for a gas prices request:\n"
 					   "5 Mississauga")
 
-	
+
 def validate_command(message):
 	command = message.message_body.lower()
-    if (command.startswith('1')): 
+	if (command.startswith('1')):
 		command = command.lstrip('1 ').replace('weather','').strip()
 		if (command):	# If message contains a query
 			message.message_status = 'query'
@@ -48,8 +48,7 @@ def validate_command(message):
 			message.message_status = 'menu'
 			message.message_body = menu_option1_detail # If message does not contain a query
 		return message
-		
-    elif (command.startswith('2')): 
+ 	elif (command.startswith('2')):
 		command = command.lstrip('2 ').replace('directions','').strip()
 		if (command):	# If message contains a query
 			message.message_status = 'query'
@@ -58,8 +57,8 @@ def validate_command(message):
 			message.message_status = 'menu'
 			message.message_body = menu_option2_detail # If message does not contain a query
 		return message
-		
-    elif (command.startswith('3')): 
+
+	elif (command.startswith('3')):
 		command = command.lstrip('3 ').replace('places','').strip()
 		if (command):	# If message contains a query
 			message.message_status = 'query'
@@ -68,8 +67,8 @@ def validate_command(message):
 			message.message_status = 'menu'
 			message.message_body = menu_option3_detail # If message does not contain a query
 		return message
-		
-    elif (command.startswith('4')): 
+
+	elif (command.startswith('4')):
 		command = command.lstrip('4 ').replace('news','').strip()
 		if (command):	# If message contains a query
 			message.message_status = 'query'
@@ -78,8 +77,8 @@ def validate_command(message):
 			message.message_status = 'menu'
 			message.message_body = menu_option4_detail # If message does not contain a query
 		return message
-		
-    elif (command.startswith('5')):
+
+	elif (command.startswith('5')):
 		command = command.lstrip('5 ').replace('gas prices','').strip()
 		if (command):	# If message contains a query
 			message.message_status = 'query'
@@ -88,9 +87,8 @@ def validate_command(message):
 			message.message_status = 'menu'
 			message.message_body = menu_option5_detail # If message does not contain a query
 		return message
-		
-    else: # If message contains anything else
+
+	else: # If message contains anything else
 		message.message_status = 'menu'
 		message.message_body = menu # If message does not contain a query or option selected
-        return message
-  
+		return message
