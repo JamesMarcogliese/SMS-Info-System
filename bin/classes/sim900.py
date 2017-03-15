@@ -97,7 +97,7 @@ class SIM900:
 		time.sleep(1)
 		self.ser.write("%s" % message) # Message
 		time.sleep(1)
-		self.ser.write(chr(26))	# End of text requires (^Z). 
+		self.ser.write(chr(26))	# End of text requires (^Z)
 		
 		return
 
