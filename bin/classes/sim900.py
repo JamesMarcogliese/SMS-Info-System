@@ -76,15 +76,14 @@ class SIM900:
 		
 		return
 		
-	def send_message(self, message, address):
+	def send_message(self, message):
 		"""Sends an SMS message.
 		
 		Pushes an SMS message onto the cellular 
 		network using physical serial interface on the RPi.
 		
 		Args: 
-		message: String.
-		address: String.
+		message: SMSMessage Object.
 
 		Returns: None.
 		
@@ -93,9 +92,9 @@ class SIM900:
 		
 		self.ser.reset_input_buffer()
 
-		self.ser.write('AT+CMGS="+%s"\r' % address)	# Destination address
+		self.ser.write('AT+CMGS="+%s"\r' % message.address_field)	# Destination address
 		time.sleep(1)
-		self.ser.write("%s" % message) # Message
+		self.ser.write("%s" % message.message_body) # Message
 		time.sleep(1)
 		self.ser.write(chr(26))	# End of text requires (^Z)
 		
