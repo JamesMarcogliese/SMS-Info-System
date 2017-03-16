@@ -15,7 +15,7 @@ class SIM900:
 	"""
 	
 	ser = None
-	
+
 	def __init__(self):
 	
 		"""SIM900 Constructor.
@@ -44,7 +44,7 @@ class SIM900:
 		# Set result code off
 		self.ser.write('ATQ1\r')
 		
-		return
+		pass
 		
 	def __del__(self):
 		"""SIM900 Destructor.
@@ -55,7 +55,7 @@ class SIM900:
 		self.power_toggle()
 		GPIO.cleanup()
 		
-		return
+		pass
 
 	def power_toggle(self):
 		"""Toggles the SIM900 GSM module ON or OFF.
@@ -90,14 +90,16 @@ class SIM900:
 		Raises: None.
 		"""
 		
-		self.ser.reset_input_buffer()
-
+		print "Sending..."
+		print message.message_body
+		print "to " + message.address_field
+		#self.ser.reset_input_buffer()
 		self.ser.write('AT+CMGS="+%s"\r' % message.address_field)	# Destination address
-		time.sleep(1)
+		time.sleep(3)
 		self.ser.write("%s" % message.message_body) # Message
-		time.sleep(1)
+		time.sleep(3)
 		self.ser.write(chr(26))	# End of text requires (^Z)
-		
+		time.sleep(3)
 		return
 
 	def get_unread_messages(self):
@@ -153,6 +155,6 @@ class SIM900:
 		"""
 		
 		self.ser.write('AT+CMGDA="DEL READ"\r')
-		self.ser.write('AT+CMGDA="DEL SENT"\r')
+		#self.ser.write('AT+CMGDA="DEL SENT"\r')
 		
 		return

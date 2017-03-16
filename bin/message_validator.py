@@ -38,9 +38,13 @@ menu_option5_detail = ("Follow the format below for a gas prices request:\n"
 
 
 def validate_command(message):
+	print "validating..."
 	command = message.message_body.lower()
+	print "Lowered."
 	if (command.startswith('1')):
+		print "Starts with 1"
 		command = command.lstrip('1 ').replace('weather','').strip()
+		print "Stripped"
 		if (command):	# If message contains a query
 			message.message_status = 'query'
 			message.message_body = command
