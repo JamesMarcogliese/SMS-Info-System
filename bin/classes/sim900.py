@@ -15,7 +15,7 @@ class SIM900:
 	"""
 	
 	ser = None
-	
+
 	def __init__(self):
 	
 		"""SIM900 Constructor.
@@ -43,8 +43,10 @@ class SIM900:
 		self.ser.write('ATE0\r')
 		# Set result code off
 		self.ser.write('ATQ1\r')
+		# Set SMS Message Format to Text
+		self.ser.write('AT+CMGF=1\r')
 		
-		return
+		pass
 		
 	def __del__(self):
 		"""SIM900 Destructor.
@@ -55,7 +57,7 @@ class SIM900:
 		self.power_toggle()
 		GPIO.cleanup()
 		
-		return
+		pass
 
 	def power_toggle(self):
 		"""Toggles the SIM900 GSM module ON or OFF.
@@ -76,29 +78,30 @@ class SIM900:
 		
 		return
 		
-	def send_message(self, message, address):
+	def send_message(self, message):
 		"""Sends an SMS message.
 		
 		Pushes an SMS message onto the cellular 
 		network using physical serial interface on the RPi.
 		
 		Args: 
-		message: String.
-		address: String.
+		message: SMSMessage Object.
 
 		Returns: None.
 		
 		Raises: None.
 		"""
 		
-		self.ser.reset_input_buffer()
-
-		self.ser.write('AT+CMGS="+%s"\r' % address)	# Destination address
+		print "Sending..."
+		print message.message_body
+		print "to " + message.address_field
+		#self.ser.reset_input_buffer()
+		self.ser.write('AT+CMGS=\"+%s\"\r' % message.address_field)	# Destination address
 		time.sleep(1)
-		self.ser.write("%s" % message) # Message
+		self.ser.write("%s" % message.message_body) # Message
 		time.sleep(1)
-		self.ser.write(chr(26))	# End of text requires (^Z). 
-		
+		self.ser.write(chr(26))	# End of text requires (^Z)
+		time.sleep(1)
 		return
 
 	def get_unread_messages(self):
@@ -153,7 +156,7 @@ class SIM900:
 		Raises: None.
 		"""
 		
-		self.ser.write('AT+CMGDA="DEL READ"\r')
-		self.ser.write('AT+CMGDA="DEL SENT"\r')
+		#self.ser.write('AT+CMGDA="DEL READ"\r')
+		#self.ser.write('AT+CMGDA="DEL SENT"\r')
 		
 		return

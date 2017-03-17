@@ -2,71 +2,97 @@
 
 """message_validator module
 
-This module validates commands and arguments of a message.
+This module validates commands and arguments of an incoming message.
 
 """
+import re
+from classes.smsMessage import SMSMessage
 
-def generate_menu():       ## Your menu design here
-    print 15 * "-" , "Welcome to SIS" , 15 * "-"
-    print "1. Weather"
-    print "2. Directions"
-    print "3. Places"
-    print "4. News"
-    print "5. Gas Prices"
-    print 15 * "-" , "Thank you for using SIS" , 15 * "-"
+menu = ("--Welcome to SIS--\n"
+		"Reply with one of the numbers below.\n"
+		"1 Weather\n"
+		"2 Directions\n"
+		"3 Places\n"
+		"4 News\n"
+		"5 Gas Prices")
 
+menu_option1_detail = ("Follow the format below for a weather request:\n"
+					   "Eg. 1 Oakville, Ontario")
 
-def validate_command(command):
-	
-    if(command == 'Hello' or command == 'HELLO' or command == 'hello'):
-        generate_menu()
-    elif (command == "1 Weather" or command == "1 weather" or command =="1"):
-        #send command to format input.
-        menu_option1_detail()
-    elif (command == "2 Directions" or command == "2 directions" or command == "2"):
-        #send command to format input.
-        menu_option2_detail()
-    elif (command == "3 Places" or command ==  "3 places" or command ==  "3"):
-        #send command to format input.
-        menu_option3_detail()
-    elif (command == "4 News" or command ==  "4 news" or command == "4"):
-        #send command to format input.
-        menu_option4_detail()
-    elif (command == "5 Gas Prices" or command == "5 gas prices" or command == "5"):
-        menu_option5_detail()
-    else:
-        print ("--- Please choose the right option from the menu ---")
-        generate_menu()
-  
-        
-def menu_option1_detail():
-    print "Follow the formatting below for a weather request: " 
-    print "Eg. 1 Oakville, Ontario"
-   
-    
-def menu_option2_detail():
-    print "Follow the formatting below for a direction request:" 
-    print "Enter the start and end location separated by a slash."
-    print "Eg. 2  123 Regal Ct,Oakville/56 Strathaven,Mississuaga"
- 
-def menu_option3_detail():   
-  print "Follow the formatting below for a places request:" 
-  print "Enter the category and location separated by a slash."
-  print "Eg. 3 Food, Brampton, Ontario"
-  print "Eg. 3 McDonalds, Hamilton, Ontario"
+menu_option2_detail = ("Follow the format below for a direction request:\n"
+					   "Enter the start and end location separated by a slash.\n"
+					   "Eg. 2 123 Regal Ct,Oakville/56 Muns,Mississuaga")
 
-def menu_option4_detail():
-  print "Follow the formatting below for a news request:" 
-  print "Enter the news outlet name."
-  print "Eg. 4 cnn-news"
-  print "Eg. 4 ars-technica"
+menu_option3_detail = ("Follow the format below for a places request:\n"
+					   "Enter the category and location separated by a slash.\n"
+					   "Eg. 3 Food/Brampton,Ontario\n"
+					   "Eg. 3 Bank/Hamilton,Ontario")
+
+menu_option4_detail = ("Follow the format below for a news request:\n" 
+					   "Enter the news outlet name.\n"
+					   "Eg. 4 cnn-news\n"
+					   "Eg. 4 ars-technica\n")
+
+menu_option5_detail = ("Follow the format below for a gas prices request:\n"
+					   "5 Mississauga")
 
 
-def menu_option5_detail():
-    print "Follow the formatting below for a gas prices request:" 
-    print "5 Mississauga"
+def validate_command(message):
+	print "validating..."
+	command = message.message_body.lower()
+	print "Lowered."
+	if (command.startswith('1')):
+		print "Starts with 1"
+		command = command.lstrip('1 ').replace('weather','').strip()
+		print "Stripped"
+		if (command):	# If message contains a query
+			message.message_status = 'query'
+			message.message_body = command
+		else:
+			message.message_status = 'menu'
+			message.message_body = menu_option1_detail # If message does not contain a query
+		return message
+ 	elif (command.startswith('2')):
+		command = command.lstrip('2 ').replace('directions','').strip()
+		if (command):	# If message contains a query
+			message.message_status = 'query'
+			message.message_body = command
+		else:
+			message.message_status = 'menu'
+			message.message_body = menu_option2_detail # If message does not contain a query
+		return message
 
+	elif (command.startswith('3')):
+		command = command.lstrip('3 ').replace('places','').strip()
+		if (command):	# If message contains a query
+			message.message_status = 'query'
+			message.message_body = command
+		else:
+			message.message_status = 'menu'
+			message.message_body = menu_option3_detail # If message does not contain a query
+		return message
 
-    	
+	elif (command.startswith('4')):
+		command = command.lstrip('4 ').replace('news','').strip()
+		if (command):	# If message contains a query
+			message.message_status = 'query'
+			message.message_body = command
+		else:
+			message.message_status = 'menu'
+			message.message_body = menu_option4_detail # If message does not contain a query
+		return message
 
-validate_command('5')
+	elif (command.startswith('5')):
+		command = command.lstrip('5 ').replace('gas prices','').strip()
+		if (command):	# If message contains a query
+			message.message_status = 'query'
+			message.message_body = command
+		else:
+			message.message_status = 'menu'
+			message.message_body = menu_option5_detail # If message does not contain a query
+		return message
+
+	else: # If message contains anything else
+		message.message_status = 'menu'
+		message.message_body = menu # If message does not contain a query or option selected
+		return message
