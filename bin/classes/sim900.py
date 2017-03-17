@@ -43,6 +43,8 @@ class SIM900:
 		self.ser.write('ATE0\r')
 		# Set result code off
 		self.ser.write('ATQ1\r')
+		# Set SMS Message Format to Text
+		self.ser.write('AT+CMGF=1\r')
 		
 		pass
 		
@@ -94,12 +96,12 @@ class SIM900:
 		print message.message_body
 		print "to " + message.address_field
 		#self.ser.reset_input_buffer()
-		self.ser.write('AT+CMGS="+%s"\r' % message.address_field)	# Destination address
-		time.sleep(3)
+		self.ser.write('AT+CMGS=\"+%s\"\r' % message.address_field)	# Destination address
+		time.sleep(1)
 		self.ser.write("%s" % message.message_body) # Message
-		time.sleep(3)
+		time.sleep(1)
 		self.ser.write(chr(26))	# End of text requires (^Z)
-		time.sleep(3)
+		time.sleep(1)
 		return
 
 	def get_unread_messages(self):
@@ -154,7 +156,7 @@ class SIM900:
 		Raises: None.
 		"""
 		
-		self.ser.write('AT+CMGDA="DEL READ"\r')
+		#self.ser.write('AT+CMGDA="DEL READ"\r')
 		#self.ser.write('AT+CMGDA="DEL SENT"\r')
 		
 		return
