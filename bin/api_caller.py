@@ -73,26 +73,31 @@ def places_info(type, address):
     #parsing---
     Count=len(r['results'])
         
-    if place_type in place_types_dict:
-        for i in range(0,3):
-            print "Name: ", r['results'][i]['name']
-            print "Address: ", r['results'][i]['formatted_address']
-            place_id = r['results'][i]['place_id']
-            url_details = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id +'&key=' + api_key
-            r2 = requests.get(url_details).json()
-            print "Phone No:",  r2['result']['formatted_phone_number']
+    if (str(r['status']) == "OK"):        
+        if place_type in place_types_dict:
+            for i in range(0,3):
+                print "Name: ", r['results'][i]['name']
+                print "Address: ", r['results'][i]['formatted_address']
+                place_id = r['results'][i]['place_id']
+                url_details = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id +'&key=' + api_key
+                r2 = requests.get(url_details).json()
+                print "Phone No:",  r2['result']['formatted_phone_number']
+    
+        else:
+            for i in range(Count):
+                print "Name: ", r['results'][i]['name']
+                print "Address: ", r['results'][i]['formatted_address']
+                print "Rating: ", r['results'][i]['rating']
+                open_status =  str(r['results'][i]['opening_hours']['open_now'])
+                print "Open: ", open_status
+                place_id = r['results'][i]['place_id']
+                url_details = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id +'&key=' + api_key
+                r2 = requests.get(url_details).json()
+                print "Phone No:",  r2['result']['formatted_phone_number']
 
+    #if (str(r['status']) == "ZERO_RESULTS") or (str(r['status']) == "UNKNOWN_ERROR"):
     else:
-        for i in range(Count):
-            print "Name: ", r['results'][i]['name']
-            print "Address: ", r['results'][i]['formatted_address']
-            print "Rating: ", r['results'][i]['rating']
-            open_status =  str(r['results'][i]['opening_hours']['open_now'])
-            print "Open: ", open_status
-            place_id = r['results'][i]['place_id']
-            url_details = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id +'&key=' + api_key
-            r2 = requests.get(url_details).json()
-            print "Phone No:",  r2['result']['formatted_phone_number']
+        print "NO RESULTS FOUND"
 
 
 
@@ -130,17 +135,18 @@ def directions_api(start, end):
         #display step by step directions
         for i in range(stepCount):
             instruction = str(r['routes'][0]['legs'][0]['steps'][i]['html_instructions'])
-            #adds spacing to XLM tags to avoid format errors
+            #adds spacing to XML tags to avoid format errors
             instruction = instruction.replace("><", "> <")
             instruction = instruction.replace(")<", ") <")
-            #deletes everything between <> in relation to XML tags (can have insignificant format errors)
+            #deletes everything between <> in relation to XML tags 
             instruction = re.sub(r'<.*?>', '', instruction)
             time = str(r['routes'][0]['legs'][0]['steps'][i]['duration']['text'])
             distance = str(r['routes'][0]['legs'][0]['steps'][i]['distance']['text'])
 
             print "Step " + str(i+1) + ": "+ instruction + "  [" + time + " (" + distance + ")]"
     
-    if (str(r['status']) == "ZERO_RESULTS") or (str(r['status']) == "UNKNOWN_ERROR"):
+    #if (str(r['status']) == "ZERO_RESULTS") or (str(r['status']) == "UNKNOWN_ERROR"):
+    else:
         print "NO DIRECTIONS FOUND"
 
 
