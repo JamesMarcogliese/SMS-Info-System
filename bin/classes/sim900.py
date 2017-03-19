@@ -162,7 +162,9 @@ class SIM900:
 		Raises: None.
 		"""
 		
-		#self.ser.write('AT+CMGDA="DEL READ"\r')
-		#self.ser.write('AT+CMGDA="DEL SENT"\r')
+		self.ser.write('AT+CMGDA="DEL READ"\r')
+		time.sleep(1)
+		self.ser.write('AT+CMGDA="DEL SENT"\r')
+		time.sleep(1)
 		
 		return
