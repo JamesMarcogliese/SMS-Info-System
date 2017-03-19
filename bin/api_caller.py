@@ -116,27 +116,31 @@ def directions_api(start, end):
 
     #Parsing---
     #display start, end, total distance, and total time
-    print "Start location: ", r['routes'][0]['legs'][0]['start_address']
-    print "End location: ", r['routes'][0]['legs'][0]['end_address']
-    print "Total distance: ", r['routes'][0]['legs'][0]['distance']['text']
-    print "Total time: ", r['routes'][0]['legs'][0]['duration']['text'], "\n"
+    if (str(r['status']) == "OK"):
+    
+        #display start, end, total distance, and total time
+        print "Start location: ", r['routes'][0]['legs'][0]['start_address']
+        print "End location: ", r['routes'][0]['legs'][0]['end_address']
+        print "Total distance: ", r['routes'][0]['legs'][0]['distance']['text']
+        print "Total time: ", r['routes'][0]['legs'][0]['duration']['text'], "\n"
+    
+        #Counts the number of steps towards destination
+        stepCount = len(r['routes'][0]['legs'][0]['steps'])
 
-    #--------------------------------------------------------------------------------------------------------------------#
-    #need some sort of validation here, 'y' to receive direction steps and 'n' to exit and re-enter intended address(es)
-    #otherwise it may send 100s of direction texts towards wrong address.
-    #--------------------------------------------------------------------------------------------------------------------#
+        #display step by step directions
+        for i in range(stepCount):
+            instruction = str(r['routes'][0]['legs'][0]['steps'][i]['html_instructions'])
+            #adds spacing to XLM tags to avoid format errors
+            instruction = instruction.replace("><", "> <")
+            instruction = instruction.replace(")<", ") <")
+            #deletes everything between <> in relation to XML tags (can have insignificant format errors)
+            instruction = re.sub(r'<.*?>', '', instruction)
+            time = str(r['routes'][0]['legs'][0]['steps'][i]['duration']['text'])
+            distance = str(r['routes'][0]['legs'][0]['steps'][i]['distance']['text'])
 
-    #Counts the number of steps towards destination
-    stepCount = len(r['routes'][0]['legs'][0]['steps'])
-
-    #display step by step directions
-    for i in range(stepCount):
-        instruction = str(r['routes'][0]['legs'][0]['steps'][i]['html_instructions'])
-        #deletes everything between <> in relation to XML tags (can have insignificant format errors)
-        instruction = re.sub(r'<.*?>', '', instruction)
-        time = str(r['routes'][0]['legs'][0]['steps'][i]['duration']['text'])
-        distance = str(r['routes'][0]['legs'][0]['steps'][i]['distance']['text'])
-
-        print "Step " + str(i+1) + ": "+ instruction + "  [" + time + " (" + distance + ")]"
+            print "Step " + str(i+1) + ": "+ instruction + "  [" + time + " (" + distance + ")]"
+    
+    if (str(r['status']) == "ZERO_RESULTS") or (str(r['status']) == "UNKNOWN_ERROR"):
+        print "NO DIRECTIONS FOUND"
 
 
