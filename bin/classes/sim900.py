@@ -95,13 +95,17 @@ class SIM900:
 		print "Sending..."
 		print message.message_body
 		print "to " + message.address_field
-		#self.ser.reset_input_buffer()
-		self.ser.write('AT+CMGS=\"+%s\"\r' % message.address_field)	# Destination address
-		time.sleep(1)
-		self.ser.write("%s" % message.message_body) # Message
-		time.sleep(1)
-		self.ser.write(chr(26))	# End of text requires (^Z)
-		time.sleep(1)
+
+		while (message.message_body):
+			message_part = message.message_body[:160]
+			message.message_body = message.message_body[160:]
+			self.ser.write('AT+CMGS=\"+%s\"\r' % message.address_field)	# Destination address
+			time.sleep(1)
+			self.ser.write("%s" % message_part) # Message
+			time.sleep(1)
+			self.ser.write(chr(26))	# End of text requires (^Z)
+			time.sleep(1)			
+		
 		return
 
 	def get_unread_messages(self):
