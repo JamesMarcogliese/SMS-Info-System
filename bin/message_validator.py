@@ -12,7 +12,7 @@ menu = ("--Welcome to SIS--\n"
 		"Reply with one of the numbers below.\n"
 		"1 Weather\n"
 		"2 Directions\n"
-		"3 Places\n"
+		"3 Places of Interest\n"
 		"4 News\n"
 		"5 Gas Prices")
 
