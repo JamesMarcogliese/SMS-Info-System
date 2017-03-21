@@ -145,33 +145,27 @@ def places_info(type, address):
 
 #Making API call to directions API.
 def directions_api(start, end):
+    #AIzaSyChHK_pRbyKc3BrrpqIp4MvCzcHPimfrDQ
     api_key = directions_api_key
-    #start = "square one, mississauga"
     start = start.replace(" ", "+");
-    #end = 'mcmaster university'
     end = end.replace(" ", "+");
-    
-    #mode {driving(default), walking, transit, bicycling}
-    #avoid {tolls, highways, ferries, indoor}    
-    #mode = "driving"
-    #avoid = "highways"
-
-    url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + start + "&destination=" + end + "&key=" + api_key
+    output=""
+      
+    url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + start + "&destination=" + end + "&key=" + api_key   
     r = requests.get(url).json()
-
-    #Parsing---
-    #display start, end, total distance, and total time
+    
+    #if results are found
     if (str(r['status']) == "OK"):
-    
-        #display start, end, total distance, and total time
-        print "Start location: ", r['routes'][0]['legs'][0]['start_address']
-        print "End location: ", r['routes'][0]['legs'][0]['end_address']
-        print "Total distance: ", r['routes'][0]['legs'][0]['distance']['text']
-        print "Total time: ", r['routes'][0]['legs'][0]['duration']['text'], "\n"
-    
+        
+        #store start, end, total distance, and total time into variables
+        _start = "Start location: " + r['routes'][0]['legs'][0]['start_address']
+        _end = "End location: " + r['routes'][0]['legs'][0]['end_address']
+        _totalDist = "Total distance: " + r['routes'][0]['legs'][0]['distance']['text']
+        _totalTime = "Total time: " + r['routes'][0]['legs'][0]['duration']['text']
+        
         #Counts the number of steps towards destination
         stepCount = len(r['routes'][0]['legs'][0]['steps'])
-
+    
         #display step by step directions
         for i in range(stepCount):
             instruction = str(r['routes'][0]['legs'][0]['steps'][i]['html_instructions'])
@@ -180,13 +174,22 @@ def directions_api(start, end):
             instruction = instruction.replace(")<", ") <")
             #deletes everything between <> in relation to XML tags 
             instruction = re.sub(r'<.*?>', '', instruction)
+            
+            #store time and distance into variables
             time = str(r['routes'][0]['legs'][0]['steps'][i]['duration']['text'])
             distance = str(r['routes'][0]['legs'][0]['steps'][i]['distance']['text'])
-
-            print "Step " + str(i+1) + ": "+ instruction + "  [" + time + " (" + distance + ")]"
-    
-    #if (str(r['status']) == "ZERO_RESULTS") or (str(r['status']) == "UNKNOWN_ERROR"):
+            
+            #concatenate the steps to output
+            stepString = "Step " + str(i+1) + ": "+ instruction + "  [" + time + " (" + distance + ")]\n"           
+            output = output + stepString
+            
+        #concatenate start,end,total distance, and total time to final output 
+        output = "\n" + _start + "\n" + _end + "\n" + _totalDist + "\n" + _totalTime + "\n" + output
+        return output 
+            
+    #if no results found    
     else:
-        print "NO DIRECTIONS FOUND"
+        output = "NO RESULTS FOUND"
+        return output
 
 
