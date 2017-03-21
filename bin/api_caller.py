@@ -56,49 +56,89 @@ def news_info(input1, input2):
          print "Published Date: ", data['articles'][i]['publishedAt'] 
          print("\n")
 
-#Making API call to places API.
 def places_info(type, address):
     
-    place_types_dict = {'hospital', 'restaurant','hindu_temple', 'university', 'veterinary_care', 'travel_agency', 'transit_station', 'train_station', 'taxi_stand', 'subway_station', 'store', 'storage', 'stadium', 'spa', 'shopping_mall', 'shoe_store', 'school' ,'rv_park', 'roofing_contractor', 'real_estate_agency', 'post_office', 'police', 'plumber', 'physiotherapist', 'pharmacy',
-    'car_rental', 'car_repair', 'car_wash', 'casino', 'cemetry', 'pet_store', 'parking', 'park', 'painter', 'night_club', 'museum', 'moving_company', 'movie_theatre', 'mosque', 'meal_takeaway', 'meal_delivery', 'lodging', 'locksmith', 'local_government_office', 'liquor_store', 'library', 'lawyer', 'laundry', 'jewelry_store', 'insuarance_agency', 'accounting', 'amusement_park', 'art_gallery', 'bakery', 'bank', 'bar', 'beauty_salon', 'book_store', 'bowling_alley', 'bus_station', 'cafe', 'campground', 'car_dealer',
-    'clothing_store', 'convenience_store', 'courthouse', 'dentist', 'department_store', 'doctor', 'electrician', 'electronics_store', 'embassy', 'florist', 'funeral_home' ,'furniture_store', 'gas_station', 'gym','hair_care', 'hardware_store'}
+    output=""
+    loop = 0
     
+    place_types_dict = {'hospital', 'food', 'restaurant','hindu_temple', 'university', 'veterinary_care', 'travel_agency', 'transit_station', 'train_station', 'taxi_stand', 'subway_station', 'store', 'storage', 'stadium', 'spa', 'shopping_mall', 'shoe_store', 'school' ,'rv_park', 'roofing_contractor', 'real_estate_agency', 'post_office', 'police', 'plumber', 'physiotherapist', 'pharmacy',
+        'car_rental', 'car_repair', 'car_wash', 'casino', 'cemetry', 'pet_store', 'parking', 'park', 'painter', 'night_club', 'museum', 'moving_company', 'movie_theatre', 'mosque', 'meal_takeaway', 'meal_delivery', 'lodging', 'locksmith', 'local_government_office', 'liquor_store', 'library', 'lawyer', 'laundry', 'jewelry_store', 'insuarance_agency', 'accounting', 'amusement_park', 'art_gallery', 'bakery', 'bank', 'bar', 'beauty_salon', 'book_store', 'bowling_alley', 'bus_station', 'cafe', 'campground', 'car_dealer',
+        'clothing_store', 'convenience_store', 'courthouse', 'dentist', 'department_store', 'doctor', 'electrician', 'electronics_store', 'embassy', 'florist', 'funeral_home' ,'furniture_store', 'gas_station', 'gym','hair_care', 'hardware_store'}
+        
     api_key = place_api_key
     place_type = type
     place_address = address
     url_search = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + place_type + place_address + '&key=' + api_key
-    
+        
     r = requests.get(url_search).json()
-
+    
     #parsing---
     Count=len(r['results'])
-        
-    if (str(r['status']) == "OK"):        
+    
+    #if results are found
+    if (str(r['status']) == "OK"):   
+        #for place types in the dictionary
         if place_type in place_types_dict:
-            for i in range(0,3):
-                print "Name: ", r['results'][i]['name']
-                print "Address: ", r['results'][i]['formatted_address']
+            for i in range(Count):
+                
+                #only print 3 results at most
+                if (loop == 3):
+                    break
+                
+                #store name and address into variables
+                _name = "Name: " + r['results'][i]['name']
+                _address = "Address: " + r['results'][i]['formatted_address']
+
+                #query to get phone number
                 place_id = r['results'][i]['place_id']
                 url_details = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id +'&key=' + api_key
-                r2 = requests.get(url_details).json()
-                print "Phone No:",  r2['result']['formatted_phone_number']
-    
+                r2 = requests.get(url_details).json()     
+                #store phone number into variable
+                _phone = "Phone No:" +  r2['result']['formatted_phone_number']
+
+                #concatenate all outputs into one variable
+                merge = "\n" + _name + "\n" + _address + "\n" + _phone  
+                #concatenate the merged result to output
+                output = output + merge 
+                
+                #increment loop counter
+                loop = loop + 1                      
+            return output
+            
+        #for names not in dictionary
         else:
             for i in range(Count):
-                print "Name: ", r['results'][i]['name']
-                print "Address: ", r['results'][i]['formatted_address']
-                print "Rating: ", r['results'][i]['rating']
-                open_status =  str(r['results'][i]['opening_hours']['open_now'])
-                print "Open: ", open_status
+                
+                #only print 3 results at most
+                if (loop == 3):
+                    break
+                
+                #store name,address,rating,open-status into variables
+                _name = "Name: " + r['results'][i]['name']
+                _address = "Address: " + r['results'][i]['formatted_address']
+                _rating = "Rating: " + str(r['results'][i]['rating'])
+                _openStatus =  "Open: " + str(r['results'][i]['opening_hours']['open_now'])
+
+                #query to get phone number
                 place_id = r['results'][i]['place_id']
                 url_details = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id +'&key=' + api_key
                 r2 = requests.get(url_details).json()
-                print "Phone No:",  r2['result']['formatted_phone_number']
-
-    #if (str(r['status']) == "ZERO_RESULTS") or (str(r['status']) == "UNKNOWN_ERROR"):
+                #store phone number into variable
+                _phone = "Phone No:" +  r2['result']['formatted_phone_number']
+                
+                #concatenate all outputs into one variable
+                merge = "\n" + _name + "\n" + _address + "\n" + _rating + "\n" + _openStatus + "\n" + _phone
+                #concatenate the merged result to output
+                output = output + merge 
+                
+                #increment loop counter
+                loop = loop + 1 
+            return output
+            
+    #if no results found
     else:
-        print "NO RESULTS FOUND"
-
+        output = "NO RESULTS FOUND"
+        return output
 
 
 
