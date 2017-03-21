@@ -29,15 +29,14 @@ def weather_search(query):
     return data
     
     #parsing---
-    print 'City Name:',
-    print (data["name"])
-    print("clouds: " + data["weather"][0]["description"])
-    print 'Temperature:' ,
-    temp = (data["main"]["temp"])
-    temp = temp - 273.15
-    print(temp)
-    print 'Humidity:',
-    print(data["main"]["humidity"])
+    _cityName = 'City Name:' + (data["name"])
+    _clouds = ("clouds: " + data["weather"][0]["description"])
+    _temp =  'Temperature:'  + (data["main"]["temp"])
+    _temp = _temp - 273.15
+    _humidity = 'Humidity:' + (data["main"]["humidity"])
+    merge = "\n" + _cityName + "\n" + _clouds + "\n" + _temp + "\n" + _humidity
+    output = output + merge
+    return output
 
 #Making API Call to news api
 def news_info(input1, input2):
