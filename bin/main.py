@@ -42,7 +42,7 @@ if __name__ == '__main__':
 		main()
 	except KeyboardInterrupt:
 		print "Killed by user"
-		sys.exit(1)
+		sys.exit(0)
 	except:
 		print "Other exception occured!"
 		e = sys.exc_info()[0]
