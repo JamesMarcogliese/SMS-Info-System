@@ -25,20 +25,26 @@ def weather_search(query):
     final_url = url + "&q=" + city
     output = ""
     
-    json_obj = urllib2.urlopen(final_url)
-    data = json.load(json_obj)
-    
+    data = requests.get(final_url).json()
     
     #parsing---
-    _cityName = "City Name: " + (data["name"])
-    _clouds = ("Clouds: " + data["weather"][0]["description"])
-    _temp = (data["main"]["temp"]) - 273.15
-    _temp = "Temperature: " + str(_temp)
-    _humidity = (data["main"]["humidity"])
-    _humidity = "Humidity: " + str(_humidity)
-    merge = "\n" + _cityName + "\n" + _clouds + "\n" + _temp + "\n" + _humidity
-    output = output + merge
-    return output
+    #if results are found
+    if (str(data['cod']) == "200"): 
+          
+        _cityName = "City Name: " + (data["name"])
+        _clouds = ("Clouds: " + data["weather"][0]["description"])
+        _temp = (data["main"]["temp"]) - 273.15
+        _temp = "Temperature: " + str(_temp)
+        _humidity = (data["main"]["humidity"])
+        _humidity = "Humidity: " + str(_humidity)
+        merge = "\n" + _cityName + "\n" + _clouds + "\n" + _temp + "\n" + _humidity
+        output = output + merge
+        return output
+        
+    #if no results found   
+    else:
+        output = "NO RESULTS FOUND"
+        return output
 
 #Making API Call to news api
 def news_info(input1, input2):
