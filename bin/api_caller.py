@@ -43,19 +43,42 @@ def weather_search(query):
 #Making API Call to news api
 def news_info(input1, input2):
     api_key = news_api_key
+    loop = 0
+    output = ""
     source = input1
     sort= input2
-
+    
     url = 'https://newsapi.org/v1/articles?source=' + source + '&sortBy=' + sort + '&apiKey=' + api_key
-    json_obj = urllib2.urlopen(url)
-    data = json.load(json_obj)
-
-    #parsing---
-    for i in range (0,5):
-         print "Title: ", data['articles'][i]['title']
-         print "Description: ", data['articles'][i]['description'] 
-         print "Published Date: ", data['articles'][i]['publishedAt'] 
-         print("\n")
+    data = requests.get(url).json()
+    
+    #parsing---  
+    #if results are found
+    if (str(data['status']) == "ok"):  
+        Count=len(data['articles'])
+        for i in range (Count):
+            
+            if (loop == 3):
+                break
+                 
+            #store output values into variables
+            _title = "Title: " + data['articles'][i]['title']
+            _desc =  "Description: " + data['articles'][i]['description'] 
+            _date =  data['articles'][i]['publishedAt'] 
+            _date = _date.split("T")[0]
+            _date = "Published Date: " + _date
+    
+            #concatenate all outputs into one variable 
+            merge = "\n" + _title + "\n" + _desc + "\n" + _date    
+            output = output + merge 
+            
+            #increment loop counter
+            loop = loop + 1
+        return output
+        
+    #if no results found
+    else:
+        output = "NO RESULTS FOUND"
+        return output
 
 def places_info(type, address):
     
@@ -73,11 +96,10 @@ def places_info(type, address):
         
     r = requests.get(url_search).json()
     
-    #parsing---
-    Count=len(r['results'])
-    
+    #parsing---   
     #if results are found
-    if (str(r['status']) == "OK"):   
+    if (str(r['status']) == "OK"):  
+        Count=len(r['results'])
         #for place types in the dictionary
         if place_type in place_types_dict:
             for i in range(Count):
@@ -95,7 +117,7 @@ def places_info(type, address):
                 url_details = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id +'&key=' + api_key
                 r2 = requests.get(url_details).json()     
                 #store phone number into variable
-                _phone = "Phone No:" +  r2['result']['formatted_phone_number']
+                _phone = "Phone No: " +  r2['result']['formatted_phone_number']
 
                 #concatenate all outputs into one variable
                 merge = "\n" + _name + "\n" + _address + "\n" + _phone  
@@ -125,7 +147,7 @@ def places_info(type, address):
                 url_details = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id +'&key=' + api_key
                 r2 = requests.get(url_details).json()
                 #store phone number into variable
-                _phone = "Phone No:" +  r2['result']['formatted_phone_number']
+                _phone = "Phone No: " +  r2['result']['formatted_phone_number']
                 
                 #concatenate all outputs into one variable
                 merge = "\n" + _name + "\n" + _address + "\n" + _rating + "\n" + _openStatus + "\n" + _phone
