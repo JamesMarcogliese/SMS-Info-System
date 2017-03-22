@@ -22,7 +22,7 @@ def weather_search(query):
     api_key = weather_api_key
     url = 'http://api.openweathermap.org/data/2.5/weather?APPID=' + api_key
     city = query
-    final_url = url + "&q=" + city
+    final_url = url + "&q=" + city + "&units=metric"
     output = ""
     
     data = requests.get(final_url).json()
