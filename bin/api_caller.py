@@ -23,17 +23,19 @@ def weather_search(query):
     url = 'http://api.openweathermap.org/data/2.5/weather?APPID=' + api_key
     city = query
     final_url = url + "&q=" + city
+    output = ""
     
     json_obj = urllib2.urlopen(final_url)
     data = json.load(json_obj)
-    return data
+    
     
     #parsing---
-    _cityName = 'City Name:' + (data["name"])
-    _clouds = ("clouds: " + data["weather"][0]["description"])
-    _temp =  'Temperature:'  + (data["main"]["temp"])
-    _temp = _temp - 273.15
-    _humidity = 'Humidity:' + (data["main"]["humidity"])
+    _cityName = "City Name: " + (data["name"])
+    _clouds = ("Clouds: " + data["weather"][0]["description"])
+    _temp = (data["main"]["temp"]) - 273.15
+    _temp = "Temperature: " + str(_temp)
+    _humidity = (data["main"]["humidity"])
+    _humidity = "Humidity: " + str(_humidity)
     merge = "\n" + _cityName + "\n" + _clouds + "\n" + _temp + "\n" + _humidity
     output = output + merge
     return output
