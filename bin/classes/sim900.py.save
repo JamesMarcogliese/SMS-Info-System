@@ -93,20 +93,20 @@ class SIM900:
 		"""
 		
 		print "Sending..."
-		#print "the return message: " + message.message_body
+		print "the reply: " + message
 		print "to " + message.address_field
+
 		while (message.message_body):
 			message_part = message.message_body[:160]
 			print "Part: " + message_part
-		        print "checking to see if num here: " + message.address_field 
 			message.message_body = message.message_body[160:]
-			print "Remaining: " + message.message_body
+			print "Remaining: " + message
 			self.ser.write('AT+CMGS=\"+%s\"\r' % message.address_field)	# Destination address
 			time.sleep(1)
 			self.ser.write("%s" % str(message_part)) # Message
 			time.sleep(1)
 			self.ser.write(chr(26))	# End of text requires (^Z)
-			time.sleep(5)			
+			time.sleep(2)			
 		
 		return
 
