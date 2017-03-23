@@ -137,7 +137,6 @@ class SIM900:
 			for each in match:
 				storage_index = each.group(1)
 				message_status = each.group(2)
-				address_field = each.group(3).strip('"').replace('+1','')
 				arrival_timestamp = each.group(4)
 				message_body = each.group(5)
 				message = SMSMessage(storage_index, message_status, address_field, arrival_timestamp, message_body)
