@@ -28,8 +28,8 @@ def main():
 					print "Sent."
 				elif (message.message_status == 'query'): # If returning query, perform query and send back to user.
 
-			else (message.message_status == 'drop'): # If returning drop, drop object.
-				del	message
+				else (message.message_status == 'drop'): # If returning drop, drop object.
+					del	message
 			# Format
 			# API call
 			# Format results
