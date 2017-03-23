@@ -57,11 +57,8 @@ def validate_command(message):
 	if (command.startswith('1')):
 		command = command.lstrip('1 ').replace('weather','').strip()
 		print "Stripped"
-		if (command):	
-			print ('If message contains a query..call api')
-			message.message_status = 'query'
-			message.message_body = "1" + command #api_caller.weather_search(command)
-
+		if (command):
+			message.message_status = 'query_1'
 		else:
 			message.message_status = 'menu'
 			message.message_body = menu_option1_detail # If message does not contain a query
@@ -69,8 +66,7 @@ def validate_command(message):
  	elif (command.startswith('2')):
 		command = command.lstrip('2 ').replace('directions','').strip()
 		if (command):	# If message contains a query
-			message.message_status = 'query'
-			message.message_body = "2" +  command
+			message.message_status = 'query_2'
 		else:
 			message.message_status = 'menu'
 			message.message_body = menu_option2_detail # If message does not contain a query
@@ -78,8 +74,7 @@ def validate_command(message):
 	elif (command.startswith('3')):
 		command = command.lstrip('3 ').replace('places','').strip()
 		if (command):	# If message contains a query
-			message.message_status = 'query'
-			message.message_body = "3" + command  #api_caller.places_info(command)
+			message.message_status = 'query_3'
 		else:
 			message.message_status = 'menu'
 			message.message_body = menu_option3_detail # If message does not contain a query
@@ -87,8 +82,7 @@ def validate_command(message):
 	elif (command.startswith('4')):
 		command = command.lstrip('4 ').replace('news','').strip()
 		if (command):	# If message contains a query
-			message.message_status = 'query'
-			message.message_body = "4" +  command
+			message.message_status = 'query_4'
 		else:
 			message.message_status = 'menu'
 			message.message_body = menu_option4_detail # If message does not contain a query
@@ -96,8 +90,7 @@ def validate_command(message):
 	elif (command.startswith('5')):
 		command = command.lstrip('5 ').replace('gas prices','').strip()
 		if (command):	# If message contains a query
-			message.message_status = 'query'
-			message.message_body = "5" + command
+			message.message_status = 'query_5'
 		else:
 			message.message_status = 'menu'
 			message.message_body = menu_option5_detail # If message does not contain a query
