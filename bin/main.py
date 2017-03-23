@@ -23,72 +23,32 @@ def main():
 			print "Messages returned!"
 			for message in message_list: # Validate each message
 				message = message_validator.validate_command(message)
-				print "Message validated"
-				if (message.message_status == 'menu'): # If returning menu, send back to user.
-					print "Menu getting returned..."
+				print "Message validated."
+				if (message.message_status == 'query_1'):
+					message.message_body = api_caller.weather_search(message.message_body)
+				elif (message.message_status == 'query_2'):
+					p1, p2 = message.message_body.split("/")
+					print ("[" + p1 + "]" + "-[" + p2 + "]")
+					message.message_body = api_caller.directions_api(p1,p2)
+				elif (message.message_status == 'query_3'):
+					p1, p2 = message.message_body.split("/")
+					print (p1 + " " + p2)
+                    message.message_body = api_caller.places_info(p1,p2)
+				elif (message.message_status == 'query_4'):
+					p1, p2 = message.message_body.split("/")
+                    print (p1 + " " + p2)
+                    message.message_body = api_caller.news_info(p1,p2)
+				elif (message.message_status == 'query_5'):
+					message.message_body = api_caller.places_info(message.message_body)
+
+				if (message.message_status == 'drop'): # If returning drop, drop object.
+					print "Message dropped."
+					del	message
+				else:
+					print "Results getting returned..."
 					sim900.send_message(message)
 					print "Sent."
 
-				elif (message.message_status == 'query'):
-					print "Results getting returned..."
-					if(message.message_body.startswith('1')):
-						message.message_body =  message.message_body.replace('1','')
-						print('removed query number from the query...')
-						result = api_caller.weather_search(message.message_body)
-						message.message_body = result
-                                       		#print (result)
-						sim900.send_message(message)
-                                        	print "Sent."
-
-                                        elif(message.message_body.startswith('2')):
-                                                message.message_body =  message.message_body.replace('2','')
-                                                print('removed query number from the query...')
-                                                p1, p2 = message.message_body.split("/")
-                                                print ("[" + p1 + "]" + "-[" + p2 + "]")
-                                                result = api_caller.directions_api(p1,p2)
-						message.message_body = result
-                                                #print (result)
-                                                sim900.send_message(message)
-                                                print "Sent."
-
-				        elif(message.message_body.startswith('3')):
-						message.message_body = message.message_body.replace('3','')
-                                                print('removed query number from the query...')
-						p1, p2 = message.message_body.split("/")
-						print (p1 + " " + p2)
-                                                result = api_caller.places_info(p1,p2)
-						message.message_body = result
-                                                #print (result)
-                                                sim900.send_message(message)
-                                                print "Sent."
-
-				        elif (message.message_body.startswith('4')):
-                                                message.message_body = message.message_body.replace('4','')
-                                                print('removed query number from the query...')
-                                                p1, p2 = message.message_body.split("/")
-                                                print (p1 + " " + p2)
-                                                result = api_caller.news_info(p1,p2)
-						message.message_body = result
-                                                #print (result)
-                                                sim900.send_message(message)
-                                                print "Sent."
-
-				        elif (message.message_body.startswith('5')):
-                                                message.message_body = message.message_body.replace('5','')
-                                                print('removed query number from the query...')
-                                                result = api_caller.places_info(message.message_body)
-						message.message_body = result
-                                                #print (result)
-                                                sim900.send_message(message)
-                                                print "Sent."
-
-				else (message.message_status == 'drop'): # If returning drop, drop object.
-					del	message
-
-			# Format
-			# API call
-			# Format results
-			# Send back to use
 		time.sleep(5)
 	pass
 
