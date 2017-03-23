@@ -36,12 +36,16 @@ menu_option4_detail = ("Follow the format below for a news request:\n"
 menu_option5_detail = ("Follow the format below for a gas prices request:\n"
 					   "5 Mississauga")
 
+area_codes = [403,780,250,604,204,506,709,867,902,416,519,613,705,807,905,418,
+450,514,819,306,587,778,431,782,647,226,343,249,289,581,579,438,873,639,825,236,437,365,600]
 
 def validate_command(message):
 	print "validating..."
-	
+
 	# Drop messages from non-canadian addresses or short codes
-	if (not message.address_field.startswith('+1') or len(message.address_field) < 12):
+	if (not message.address_field.startswith('+1') or
+		len(message.address_field) < 12 or
+		int(message.address_field[2:5]) not in area_codes):
 		message.message_status = 'drop'
 		return message
 	else:
