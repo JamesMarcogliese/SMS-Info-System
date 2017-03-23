@@ -18,19 +18,17 @@ def main():
 	while True: # Loop Main
 		print "In Main"
 		message_list = sim900.get_unread_messages() # Get messages if available
-		print "Got messages"
+		print "Getting messages..."
 		if (message_list):	# If messages are available
-			print "Messages returned"
+			print "Messages returned!"
 			for message in message_list: # Validate each message
-				print "Iterating through messages..."
-				print "body: " + message.message_body
-				print "address: " + message.address_field
 				message = message_validator.validate_command(message)
 				print "Message validated"
 				if (message.message_status == 'menu'): # If returning menu, send back to user.
 					print "Menu getting returned..."
 					sim900.send_message(message)
 					print "Sent."
+
 				elif (message.message_status == 'query'):
 					print "Results getting returned..."
 					if(message.message_body.startswith('1')):
@@ -83,7 +81,10 @@ def main():
                                                 #print (result)
                                                 sim900.send_message(message)
                                                 print "Sent."
-	
+
+				else (message.message_status == 'drop'): # If returning drop, drop object.
+					del	message
+
 			# Format
 			# API call
 			# Format results
@@ -97,7 +98,7 @@ if __name__ == '__main__':
 		main()
 	except KeyboardInterrupt:
 		print "Killed by user"
-		sys.exit(1)
+		sys.exit(0)
 	except:
 		print "Other exception occured!"
 		e = sys.exc_info()[0]
