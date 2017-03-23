@@ -5,4 +5,4 @@ config = {
 	'url': 'https://github.com/JamesMarcogliese/Capstone-SIS',
 	'author_email': 'james.marcogliese@gmail.com',
 	'version': '0.1'
-}
+ }

@@ -18,17 +18,19 @@ def main():
 	while True: # Loop Main
 		print "In Main"
 		message_list = sim900.get_unread_messages() # Get messages if available
-		print "Getting messages..."
+		print "Got messages"
 		if (message_list):	# If messages are available
-			print "Messages returned!"
+			print "Messages returned"
 			for message in message_list: # Validate each message
+				print "Iterating through messages..."
+				print "body: " + message.message_body
+				print "address: " + message.address_field
 				message = message_validator.validate_command(message)
 				print "Message validated"
 				if (message.message_status == 'menu'): # If returning menu, send back to user.
 					print "Menu getting returned..."
 					sim900.send_message(message)
 					print "Sent."
-
 				elif (message.message_status == 'query'):
 					print "Results getting returned..."
 					if(message.message_body.startswith('1')):
@@ -36,7 +38,7 @@ def main():
 						print('removed query number from the query...')
 						result = api_caller.weather_search(message.message_body)
 						message.message_body = result
-                                       		#print (result)
+                                       		print (message.message_body)
 						sim900.send_message(message)
                                         	print "Sent."
 
@@ -44,11 +46,10 @@ def main():
                                                 message.message_body =  message.message_body.replace('2','')
                                                 print('removed query number from the query...')
                                                 p1, p2 = message.message_body.split("/")
-                                                print ("[" + p1 + "]" + "-[" + p2 + "]")
-                                                result = api_caller.directions_api(p1,p2)
-						message.message_body = result
-                                                #print (result)
-                                                sim900.send_message(message)
+                                                print (p1 + " " + p2)
+                                                results = api_caller.directions_api(p1,p2)
+                                                print (results)
+                                                sim900.send_message(results)
                                                 print "Sent."
 
 				        elif(message.message_body.startswith('3')):
@@ -56,10 +57,9 @@ def main():
                                                 print('removed query number from the query...')
 						p1, p2 = message.message_body.split("/")
 						print (p1 + " " + p2)
-                                                result = api_caller.places_info(p1,p2)
-						message.message_body = result
-                                                #print (result)
-                                                sim900.send_message(message)
+                                                results = api_caller.places_info(p1,p2)
+                                                print (results)
+                                                sim900.send_message(results)
                                                 print "Sent."
 
 				        elif (message.message_body.startswith('4')):
@@ -67,24 +67,19 @@ def main():
                                                 print('removed query number from the query...')
                                                 p1, p2 = message.message_body.split("/")
                                                 print (p1 + " " + p2)
-                                                result = api_caller.news_info(p1,p2)
-						message.message_body = result
-                                                #print (result)
-                                                sim900.send_message(message)
+                                                results = api_caller.news_info(p1,p2)
+                                                print (results)
+                                                sim900.send_message(results)
                                                 print "Sent."
 
 				        elif (message.message_body.startswith('5')):
                                                 message.message_body = message.message_body.replace('5','')
                                                 print('removed query number from the query...')
-                                                result = api_caller.places_info(message.message_body)
-						message.message_body = result
-                                                #print (result)
-                                                sim900.send_message(message)
+                                                results = api_caller.places_info(message.message_body)
+                                                print (results)
+                                                sim900.send_message(results)
                                                 print "Sent."
-
-				else (message.message_status == 'drop'): # If returning drop, drop object.
-					del	message
-
+	
 			# Format
 			# API call
 			# Format results
@@ -98,7 +93,7 @@ if __name__ == '__main__':
 		main()
 	except KeyboardInterrupt:
 		print "Killed by user"
-		sys.exit(0)
+		sys.exit(1)
 	except:
 		print "Other exception occured!"
 		e = sys.exc_info()[0]

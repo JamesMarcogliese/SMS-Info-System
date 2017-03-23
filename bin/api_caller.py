@@ -1,7 +1,8 @@
 ﻿#!/usr/bin/python
-import urllib2
+
 import json
 import requests
+import re
 
 
 """api_caller module
@@ -33,11 +34,11 @@ def weather_search(query):
           
         _cityName = "City Name: " + (data["name"])
         _clouds = ("Clouds: " + data["weather"][0]["description"])
-        _temp = (data["main"]["temp"]) - 273.15
+        _temp = (data["main"]["temp"])
         _temp = "Temperature: " + str(_temp)
         _humidity = (data["main"]["humidity"])
         _humidity = "Humidity: " + str(_humidity)
-        merge = "\n" + _cityName + "\n" + _clouds + "\n" + _temp + "\n" + _humidity
+        merge = _cityName + "\n" + _clouds + "\n" + _temp + "\n" + _humidity
         output = output + merge
         return output
         
@@ -59,7 +60,7 @@ def news_info(input1, input2):
     
     #parsing---  
     #if results are found
-    if (str(data['status']) == "ok"):  
+    if (str(data['status']) == "ok"):
         Count=len(data['articles'])
         for i in range (Count):
             
@@ -69,16 +70,11 @@ def news_info(input1, input2):
             #store output values into variables
             _title = "Title: " + data['articles'][i]['title']
             _desc =  "Description: " + data['articles'][i]['description'] 
-            _date =  data['articles'][i]['publishedAt'] 
-            _date = _date.split("T")[0]
-            _date = "Published Date: " + _date
-    
             #concatenate all outputs into one variable 
-            merge = "\n" + _title + "\n" + _desc + "\n" + _date    
+            merge = "\n" + _title + "\n" + _desc 
             output = output + merge 
-            
             #increment loop counter
-            loop = loop + 1
+            loop = loop +  1
         return output
         
     #if no results found
@@ -185,7 +181,6 @@ def directions_api(start, end):
     
     #if results are found
     if (str(r['status']) == "OK"):
-        
         #store start, end, total distance, and total time into variables
         _start = "Start location: " + r['routes'][0]['legs'][0]['start_address']
         _end = "End location: " + r['routes'][0]['legs'][0]['end_address']
@@ -193,8 +188,7 @@ def directions_api(start, end):
         _totalTime = "Total time: " + r['routes'][0]['legs'][0]['duration']['text']
         
         #Counts the number of steps towards destination
-        stepCount = len(r['routes'][0]['legs'][0]['steps'])
-    
+        stepCount = len(r['routes'][0]['legs'][0]['steps'])   
         #display step by step directions
         for i in range(stepCount):
             instruction = str(r['routes'][0]['legs'][0]['steps'][i]['html_instructions'])
@@ -203,15 +197,12 @@ def directions_api(start, end):
             instruction = instruction.replace(")<", ") <")
             #deletes everything between <> in relation to XML tags 
             instruction = re.sub(r'<.*?>', '', instruction)
-            
             #store time and distance into variables
             time = str(r['routes'][0]['legs'][0]['steps'][i]['duration']['text'])
             distance = str(r['routes'][0]['legs'][0]['steps'][i]['distance']['text'])
-            
             #concatenate the steps to output
             stepString = "Step " + str(i+1) + ": "+ instruction + "  [" + time + " (" + distance + ")]\n"           
             output = output + stepString
-            
         #concatenate start,end,total distance, and total time to final output 
         output = "\n" + _start + "\n" + _end + "\n" + _totalDist + "\n" + _totalTime + "\n" + output
         return output 
