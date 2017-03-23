@@ -16,19 +16,20 @@ def main():
 	while True: # Loop Main
 		print "In Main"
 		message_list = sim900.get_unread_messages() # Get messages if available
-		print "Got messages"
+		print "Getting messages..."
 		if (message_list):	# If messages are available
-			print "Messages returned"
+			print "Messages returned!"
 			for message in message_list: # Validate each message
-				print "Iterating through messages..."
-				print "body: " + message.message_body
-				print "address: " + message.address_field
 				message = message_validator.validate_command(message)
 				print "Message validated"
 				if (message.message_status == 'menu'): # If returning menu, send back to user.
 					print "Menu getting returned..."
 					sim900.send_message(message)
 					print "Sent."
+				elif (message.message_status == 'query'): # If returning query, perform query and send back to user.
+
+			else (message.message_status == 'drop'): # If returning drop, drop object.
+				del	message
 			# Format
 			# API call
 			# Format results
