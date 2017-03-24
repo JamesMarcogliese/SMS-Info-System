@@ -66,7 +66,7 @@ def places_call(place_type, address):
 
     payload = {'query':place_type+address,'key':place_api_key}
     r = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json', params=payload).json()
-
+    output = ''
     #if results are found
     if (str(r['status']) == "OK"):
         count=len(r['results'])
@@ -84,13 +84,12 @@ def places_call(place_type, address):
             _phone = "Phone No: " +  r2['result']['formatted_phone_number']
 
             if (place_type in place_types_dict):
-                output = "\n" + _name + "\n" + _address + "\n" + _phone
-                return output
+                output = output + "\n" + _name + "\n" + _address + "\n" + _phone
             else:   #for names not in dictionary
                 _rating = "Rating: " + str(r['results'][i]['rating'])
                 _openStatus =  "Open: " + str(r['results'][i]['opening_hours']['open_now'])
-                output = "\n" + _name + "\n" + _address + "\n" + _rating + "\n" + _openStatus + "\n" + _phone
-                return output
+                output = output + "\n" + _name + "\n" + _address + "\n" + _rating + "\n" + _openStatus + "\n" + _phone
+        return output
     #if no results found
     else:
         output = "NO RESULTS FOUND"
