@@ -19,7 +19,7 @@ directions_api_key = 'AIzaSyChHK_pRbyKc3BrrpqIp4MvCzcHPimfrDQ'
 #Making API call to weather API.
 def weather_search(query):
     payload = {'appid':weather_api_key,'q':query,'units':'metric'}
-    data = requests.get('http://api.openweathermap.org/data/2.5/weather').json()
+    data = requests.get('http://api.openweathermap.org/data/2.5/weather', params=payload).json()
 
     if (str(data['cod']) == "200"):
         _cityName = "City Name: " + (data["name"])
