@@ -121,7 +121,7 @@ def places_info(place_type, address):
 
 #Making API call to directions API.
 def directions_api(start, end):
-    api_key =
+
     start = start.replace(" ", "+");
     end = end.replace(" ", "+");
     payload = {'origin'start:,'destination':end,'key':directions_api_key}
