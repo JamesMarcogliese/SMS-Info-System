@@ -33,9 +33,9 @@ def main():
 				elif (message.message_status == 'query_3'):
 					p1, p2 = message.message_body.split("/")
 					print (p1 + " " + p2)
-                    			message.message_body = api_caller.places_call(p1,p2)
+                    message.message_body = api_caller.places_call(p1,p2)
 				elif (message.message_status == 'query_4'):
-                   			 message.message_body = api_caller.news_call(p1)
+					message.message_body = api_caller.news_call(p1)
 				elif (message.message_status == 'query_5'):
 					#message.message_body = api_caller.places_call(message.message_body)
 					print "In 5"
