@@ -31,8 +31,8 @@ menu_option3_detail = ("Follow the format below for a places request:\n"
 
 menu_option4_detail = ("Follow the format below for a news request:\n"
 					   "Enter the news outlet name.\n"
-					   "Eg. 4 cnn-news/top\n"
-					   "Eg. 4 ars-technica/latest\n")
+					   "Eg. 4 cnn\n"
+					   "Eg. 4 espn\n")
 
 menu_option5_detail = ("Follow the format below for a gas prices request:\n"
 					   "5 Mississauga")
