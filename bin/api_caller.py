@@ -17,7 +17,7 @@ news_api_key = 'c743d7069e6a4f4b95e800e6915f2612'
 directions_api_key = 'AIzaSyChHK_pRbyKc3BrrpqIp4MvCzcHPimfrDQ'
 
 #Making API call to weather API.
-def weather_search(query):
+def weather_call(query):
     payload = {'appid':weather_api_key,'q':query,'units':'metric'}
     data = requests.get('http://api.openweathermap.org/data/2.5/weather', params=payload).json()
 
@@ -32,7 +32,7 @@ def weather_search(query):
     return output
 
 #Making API Call to news api
-def news_info(source):
+def news_call(source):
     print "source is:" + source
 
     payload = {'source':source,'apiKey':news_api_key}
@@ -49,7 +49,7 @@ def news_info(source):
         output = "NO RESULTS FOUND"
     return output
 
-def places_info(place_type, address):
+def places_call(place_type, address):
 
     place_types_dict = {'hospital', 'food', 'restaurant','hindu_temple', 'university', 'veterinary_care',
         'travel_agency', 'transit_station', 'train_station', 'taxi_stand', 'subway_station', 'store',
@@ -69,7 +69,7 @@ def places_info(place_type, address):
 
     #if results are found
     if (str(r['status']) == "OK"):
-        Count=len(r['results'])
+        count=len(r['results'])
         #for place types in the dictionary
         if place_type in place_types_dict:
             if (count > 3):
@@ -119,7 +119,7 @@ def places_info(place_type, address):
         return output
 
 #Making API call to directions API.
-def directions_api(start, end):
+def directions_call(start, end):
 
     start = start.replace(" ", "+");
     end = end.replace(" ", "+");
