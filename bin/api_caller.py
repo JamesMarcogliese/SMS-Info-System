@@ -70,49 +70,27 @@ def places_call(place_type, address):
     #if results are found
     if (str(r['status']) == "OK"):
         count=len(r['results'])
-        #for place types in the dictionary
-        if place_type in place_types_dict:
-            if (count > 3):
-                count = 3
-            for i in range(count):
+        if (count > 3):
+            count = 3
 
-                #store name and address into variables
-                _name = "Name: " + r['results'][i]['name']
-                _address = "Address: " + r['results'][i]['formatted_address']
+        for i in range(count):
+            _name = "Name: " + r['results'][i]['name']
+            _address = "Address: " + r['results'][i]['formatted_address']
+            #query to get phone number
+            place_id = r['results'][i]['place_id']
+            payload = {'placeid':place_id,'key':place_api_key}
+            r2 = requests.get('https://maps.googleapis.com/maps/api/place/details/json', params=payload).json()
+            #store phone number into variable
+            _phone = "Phone No: " +  r2['result']['formatted_phone_number']
 
-                #query to get phone number
-                place_id = r['results'][i]['place_id']
-                payload = {'placeid':place_id,'key':place_api_key}
-                r2 = requests.get('https://maps.googleapis.com/maps/api/place/details/json', params=payload).json()
-                #store phone number into variable
-                _phone = "Phone No: " +  r2['result']['formatted_phone_number']
-
-                #concatenate all outputs into one variable
+            if (place_type in place_types_dict):
                 output = "\n" + _name + "\n" + _address + "\n" + _phone
-
-            return output
-
-        #for names not in dictionary
-        else:
-            for i in range(count):
-
-                #store name,address,rating,open-status into variables
-                _name = "Name: " + r['results'][i]['name']
-                _address = "Address: " + r['results'][i]['formatted_address']
+                return output
+            else:   #for names not in dictionary
                 _rating = "Rating: " + str(r['results'][i]['rating'])
                 _openStatus =  "Open: " + str(r['results'][i]['opening_hours']['open_now'])
-
-                #query to get phone number
-                place_id = r['results'][i]['place_id']
-                payload = {'placeid':place_id,'key':place_api_key}
-                r2 = requests.get('https://maps.googleapis.com/maps/api/place/details/json', params=payload).json()
-                #store phone number into variable
-                _phone = "Phone No: " +  r2['result']['formatted_phone_number']
-
-                #concatenate all outputs into one variable
                 output = "\n" + _name + "\n" + _address + "\n" + _rating + "\n" + _openStatus + "\n" + _phone
-
-            return output
+                return output
     #if no results found
     else:
         output = "NO RESULTS FOUND"
