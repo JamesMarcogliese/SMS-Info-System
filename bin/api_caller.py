@@ -149,6 +149,7 @@ def directions_call(start, end):
             distance = str(r['routes'][0]['legs'][0]['steps'][i]['distance']['text'])
             #concatenate the steps to output
             stepString = "Step " + str(i+1) + ": "+ instruction + "  [" + time + " (" + distance + ")]\n"
+            output = ''
             output = output + stepString
         #concatenate start,end,total distance, and total time to final output
         output = "\n" + _start + "\n" + _end + "\n" + _totalDist + "\n" + _totalTime + "\n" + output
