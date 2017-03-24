@@ -32,9 +32,8 @@ def weather_search(query):
     return output
 
 #Making API Call to news api
-def news_info(source,sort):
+def news_info(source):
     print "source is:" + source
-    print "sort is:" + sort
 
     payload = {'source':source,'apiKey':news_api_key}
     data = requests.get('https://newsapi.org/v1/articles', params=payload).json()
