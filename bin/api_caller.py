@@ -19,7 +19,7 @@ directions_api_key = 'AIzaSyChHK_pRbyKc3BrrpqIp4MvCzcHPimfrDQ'
 #Making API call to weather API.
 def weather_search(query):
     payload = {'appid':weather_api_key,'q':query,'units':'metric'}
-    data = requests.get('http://api.openweathermap.org/data/2.5/weather).json()
+    data = requests.get('http://api.openweathermap.org/data/2.5/weather').json()
 
     if (str(data['cod']) == "200"):
         _cityName = "City Name: " + (data["name"])
@@ -121,11 +121,11 @@ def places_info(place_type, address):
 
 #Making API call to directions API.
 def directions_api(start, end):
-    api_key =
+
     start = start.replace(" ", "+");
     end = end.replace(" ", "+");
-    payload = {'origin'start:,'destination':end,'key':directions_api_key}
-    r = requests.get('"https://maps.googleapis.com/maps/api/directions/json', params=payload).json()
+    payload = {'origin':start,'destination':end,'key':directions_api_key}
+    r = requests.get('https://maps.googleapis.com/maps/api/directions/json', params=payload).json()
 
     #if results are found
     if (str(r['status']) == "OK"):
