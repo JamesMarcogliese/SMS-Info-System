@@ -14,22 +14,25 @@ makes the call to the respective API.
 #storing API Key's in variables
 weather_api_key = '6c0b081fbb4411e1fc3d6836fe090fed'
 place_api_key = 'AIzaSyBJ-HaEFhUJC_hz1kC3UsKpyNDz8l5n2FQ'
-news_api_key = 'ed19d95d5d41476b8096018c2ce18828'
+news_api_key = 'c743d7069e6a4f4b95e800e6915f2612'
 directions_api_key = 'AIzaSyChHK_pRbyKc3BrrpqIp4MvCzcHPimfrDQ'
 
 
 #Making API call to weather API.
 def weather_search(query):
     api_key = weather_api_key
-    url = 'http://api.openweathermap.org/data/2.5/weather?APPID=' + api_key
+    url = str('http://api.openweathermap.org/data/2.5/weather?APPID=' + api_key)
     city = query
-    final_url = url + "&q=" + city + "&units=metric"
+    print "the parameter is: " + city
+    final_url = str(url + "&q=" + city + "&units=metric")
+    print final_url
     output = ""
     
     data = requests.get(final_url).json()
     
     #parsing---
     #if results are found
+    
     if (str(data['cod']) == "200"): 
           
         _cityName = "City Name: " + (data["name"])
@@ -48,19 +51,26 @@ def weather_search(query):
         return output
 
 #Making API Call to news api
-def news_info(input1, input2):
+def news_info(input1,input2):
     api_key = news_api_key
     loop = 0
     output = ""
-    source = input1
-    sort= input2
-    
-    url = 'https://newsapi.org/v1/articles?source=' + source + '&sortBy=' + sort + '&apiKey=' + api_key
+    source = input1 
+    print "source is:" + source
+    sort = input2
+    print "sort is:" + sort 
+    url = "https://newsapi.org/v1/articles?source=" + source + "&sortBy=" + sort + "&apiKey=" + api_key
+
+    #url = 'https://newsapi.org/v1/articles?source=' + source + '&sortBy=' + sort + '&apiKey=' + api_key
+    #url = "https://newsapi.org/v1/articles?source=cnbc&sortBy=top&apiKey=c743d7069e6a4f4b95e800e6915f2612"
+    print (url) #console is glitching it out...samething happened with weather URL but it still worked
     data = requests.get(url).json()
-    
+    print "before loop, error: " + data['status']
+    print "before loop, msg: " + data['message'] #just for testing, delete this otherwise or will cause crash if query is successful
     #parsing---  
     #if results are found
     if (str(data['status']) == "ok"):
+	print "made it in LOOP atleast"
         Count=len(data['articles'])
         for i in range (Count):
             
