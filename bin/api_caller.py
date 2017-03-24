@@ -124,7 +124,7 @@ def directions_api(start, end):
 
     start = start.replace(" ", "+");
     end = end.replace(" ", "+");
-    payload = {'origin'start:,'destination':end,'key':directions_api_key}
+    payload = {'origin':start:,'destination':end,'key':directions_api_key}
     r = requests.get('https://maps.googleapis.com/maps/api/directions/json', params=payload).json()
 
     #if results are found
