@@ -32,7 +32,7 @@ menu_option3_detail = ("Follow the format below for a places request:\n"
 menu_option4_detail = ("Follow the format below for a news request:\n"
 					   "Enter the news outlet name.\n"
 					   "Eg. 4 cnn\n"
-					   "Eg. 4 espn\n")
+					   "Eg. 4 espn")
 
 menu_option5_detail = ("Follow the format below for a gas prices request:\n"
 					   "5 Mississauga")
@@ -59,6 +59,7 @@ def validate_command(message):
 		print "Stripped"
 		if (command):
 			message.message_status = 'query_1'
+			message.message_body = command
 		else:
 			message.message_status = 'menu'
 			message.message_body = menu_option1_detail # If message does not contain a query
@@ -67,6 +68,7 @@ def validate_command(message):
 		command = command.lstrip('2 ').replace('directions','').strip()
 		if (command):	# If message contains a query
 			message.message_status = 'query_2'
+			message.message_body = command
 		else:
 			message.message_status = 'menu'
 			message.message_body = menu_option2_detail # If message does not contain a query
@@ -75,6 +77,7 @@ def validate_command(message):
 		command = command.lstrip('3 ').replace('places','').strip()
 		if (command):	# If message contains a query
 			message.message_status = 'query_3'
+			message.message_body = command
 		else:
 			message.message_status = 'menu'
 			message.message_body = menu_option3_detail # If message does not contain a query
@@ -83,6 +86,7 @@ def validate_command(message):
 		command = command.lstrip('4 ').replace('news','').strip()
 		if (command):	# If message contains a query
 			message.message_status = 'query_4'
+			message.message_body = command
 		else:
 			message.message_status = 'menu'
 			message.message_body = menu_option4_detail # If message does not contain a query
@@ -91,6 +95,7 @@ def validate_command(message):
 		command = command.lstrip('5 ').replace('gas prices','').strip()
 		if (command):	# If message contains a query
 			message.message_status = 'query_5'
+			message.message_body = command
 		else:
 			message.message_status = 'menu'
 			message.message_body = menu_option5_detail # If message does not contain a query
@@ -99,3 +104,18 @@ def validate_command(message):
 		message.message_status = 'menu'
 		message.message_body = menu # If message does not contain a query or option selected
 		return message
+
+#validator for API calls where there are 2 parameters
+def extract_parameters(message):
+    if (message.message_body.count('/') == 1):
+        p1,p2 = message.message_body.split('/')
+        p1 = p1.strip()
+        p1 = p2.strip()
+
+        if (p1 and p2):
+            return message, p1, p2
+    else:
+        message.message_status = 'invalid'
+		message.message_body = "Invalid query! Please separate inputs with a single slash (/)."
+
+    return message, None, None
