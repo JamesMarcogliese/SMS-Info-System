@@ -23,38 +23,18 @@ def main():
 			print "Messages returned!"
 			for message in message_list: # Validate each message
 				message = message_validator.validate_command(message)
+				if (message.message_status == 'query_2' or message.message_status == 'query_3'):
+					message,p1,p2 = message_validator.extract_parameters(message)
 				print "Message validated."
+
 				if (message.message_status == 'query_1'):
 					message.message_body = api_caller.weather_call(message.message_body)
 				elif (message.message_status == 'query_2'):
-					if ('/' in message.message_body and message.message_body.count('/') == 1): 
-        					p1,p2 = message.message_body.split('/')
-        					check1 = p1.strip()
-        					check2 = p2.strip()
-
-        					if ((not check1) or (not check2)):
-            						message.message_body = "Missing or empty parameter(s) found"
-        					else:
-							print "in loop"
-            						message.message_body = api_caller.directions_call(p1,p2)
-							print "made api call"
-
-					else:
-						message.message_body = "Invalid query - please separate inputs with a single /"
+					message.message_body = api_caller.directions_call(p1,p2)
 				elif (message.message_status == 'query_3'):
-					if ('/' in message.message_body and message.message_body.count('/') == 1):
-                                                p1,p2 = message.message_body.split('/')
-                                                check1 = p1.strip()
-                                                check2 = p2.strip()
-
-                                                if ((not check1) or (not check2)):
-                                                        message.message_body = "Missing or empty parameter(s) found"
-                                                else:
-                                                        message.message_body = api_caller.places_call(p1,p2)
-					else:
-						message.message_body = "Invalid query - please separate inputs with a single /"
+                    message.message_body = api_caller.places_call(p1,p2)
 				elif (message.message_status == 'query_4'):
-					message.message_body = api_caller.news_call(p1)
+					message.message_body = api_caller.news_call(message.message_body)
 				elif (message.message_status == 'query_5'):
 					#message.message_body = api_caller.places_call(message.message_body)
 					print "In 5"

@@ -32,7 +32,7 @@ menu_option3_detail = ("Follow the format below for a places request:\n"
 menu_option4_detail = ("Follow the format below for a news request:\n"
 					   "Enter the news outlet name.\n"
 					   "Eg. 4 cnn\n"
-					   "Eg. 4 espn\n")
+					   "Eg. 4 espn")
 
 menu_option5_detail = ("Follow the format below for a gas prices request:\n"
 					   "5 Mississauga")
@@ -66,7 +66,6 @@ def validate_command(message):
 		return message
  	elif (command.startswith('2')):
 		command = command.lstrip('2 ').replace('directions','').strip()
-		print "command = " + command
 		if (command):	# If message contains a query
 			message.message_status = 'query_2'
 			message.message_body = command
@@ -107,20 +106,16 @@ def validate_command(message):
 		return message
 
 #validator for API calls where there are 2 parameters
-def validate_message(inp):
+def extract_parameters(message):
+    if (message.message_body.count('/') == 1):
+        p1,p2 = message.message_body.split('/')
+        p1 = p1.strip()
+        p1 = p2.strip()
 
-    output = ""
-
-    if ('/' in inp and inp.count('/') == 1):  
-        p1,p2 = inp.split('/')
-        check1 = p1.strip()
-        check2 = p2.strip()
-
-        if ((not check1) or (not check2)):
-            output = "Missing or empty parameter(s) found"
-        else:
-            output = "Valid query"
+        if (p1 and p2):
+            return message, p1, p2
     else:
-        output = "Invalid query - please separate inputs with a single /"
+        message.message_status = 'invalid'
+		message.message_body = "Invalid query! Please separate inputs with a single slash (/)."
 
-    return output
+    return message, None, None
