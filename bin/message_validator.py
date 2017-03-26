@@ -11,32 +11,33 @@ from classes.smsMessage import SMSMessage
 import api_caller
 
 main_menu = ("--Welcome to SIS--\n"
-		"Reply with one of the numbers below.\n"
-		"1 for Weather\n"
-		"2 for Directions\n"
-		"3 for Places of Interest\n"
-		"4 for News\n"
-		"5 for Gas Prices")
+			 "Reply with one of the numbers below.\n"
+			 "1 for Weather\n"
+			 "2 for Directions\n"
+			 "3 for Places of Interest\n"
+			 "4 for News\n"
+			 "5 for Gas Prices")
 
-menu_option1_detail = ("Reply in the format below for a weather request:\n"
+menu_option1_detail = ("Reply in the format below for weather:\n"
+					   "'1' followed by location.\n"
 					   "Eg. 1 Oakville, Ontario")
 
-menu_option2_detail = ("Reply in the format below for a directions request:\n"
-					   "Start and end location must be separated by a slash.\n"
+menu_option2_detail = ("Reply in the format below for directions:\n"
+					   "'2' followed by start and end location separated by a slash.\n"
 					   "Eg. 2 123 Regal Ct,Oakville/56 Muns,Mississuaga")
 
-menu_option3_detail = ("Reply in the format below for a places request:\n"
-					   "Category and location must be separated by a slash.\n"
+menu_option3_detail = ("Reply in the format below for places:\n"
+					   "'3' followed by category and location separated by a slash.\n"
 					   "Eg. 3 Food/Brampton,Ontario\n"
 					   "Eg. 3 Bank/Hamilton,Ontario")
 
-menu_option4_detail = ("Reply in the format below for a news request:\n"
-					   "Enter the news outlet name.\n"
+menu_option4_detail = ("Reply in the format below for news:\n"
+					   "'4' followed by news outlet name.\n"
 					   "Eg. 4 cnn\n"
 					   "Eg. 4 espn")
 
-menu_option5_detail = ("Reply in the format below for a gas prices request:\n"
-					   "Enter the location.\n"
+menu_option5_detail = ("Reply in the format below for gas prices:\n"
+					   "'5' followed by location.\n"
 					   "Eg. 5 Mississauga")
 
 area_codes = [403,780,250,604,204,506,709,867,902,416,519,613,705,807,905,418,
