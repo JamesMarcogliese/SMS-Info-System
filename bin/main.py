@@ -25,8 +25,9 @@ def main():
 				message = message_validator.validate_message(message)
 				if (message.message_status == 'query_2' or message.message_status == 'query_3'):
 					message,p1,p2 = message_validator.extract_parameters(message)
+					print p1 + p2
 				print "Message validated."
-
+				print message.message_status
 				if (message.message_status == 'query_1'):
 					message.message_body = api_caller.weather_call(message.message_body)
 				elif (message.message_status == 'query_2'):

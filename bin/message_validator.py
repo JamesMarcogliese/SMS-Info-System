@@ -20,7 +20,7 @@ main_menu = ("--Welcome to SIS--\n"
 
 menu_option1_detail = ("Reply in the format below for weather:\n"
 					   "'1' followed by location.\n"
-					   "Eg. 1 Oakville, Ontario")
+					   "Eg. 1 Oakville,Ontario")
 
 menu_option2_detail = ("Reply in the format below for directions:\n"
 					   "'2' followed by start and end location separated by a slash.\n"
@@ -100,7 +100,7 @@ def extract_parameters(message):
 	if (message.message_body.count('/') == 1):
 		p1,p2 = message.message_body.split('/')
 		p1 = p1.strip()
-		p1 = p2.strip()
+		p2 = p2.strip()
 		
 		if (p1 and p2):
 			return message, p1, p2
