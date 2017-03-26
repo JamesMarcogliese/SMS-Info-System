@@ -104,6 +104,11 @@ def extract_parameters(message):
 		
 		if (p1 and p2):
 			return message, p1, p2
+		else:
+			message.message_status = 'invalid'
+			message.message_body = ("Invalid query! Please specify command number " 
+									"at start of query and separate locations or categories " 
+									"with a single slash (/).")
 	else:
 		message.message_status = 'invalid'
 		message.message_body = ("Invalid query! Please specify command number " 
