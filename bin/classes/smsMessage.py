@@ -14,6 +14,11 @@ class SMSMessage:
 	message_body = None
 	
 	def __init__(self, 	storage_index, message_status, address_field, arrival_timestamp, message_body):
+	
+		"""SMSMessage Constructor.
+
+		Populates attributes of object.
+		"""
 		self.storage_index = storage_index
 		self.message_status = message_status
 		self.address_field = address_field

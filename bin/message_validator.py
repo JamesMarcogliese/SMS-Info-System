@@ -48,7 +48,18 @@ options = defaultdict(lambda:[None,'main_menu'], {'1': ['1 ','query_1','menu_opt
 	'4': ['4 ','query_4','menu_option4_detail'],
 	'5': ['5 ','query_5','menu_option5_detail']})
 
-def validate_command(message):
+def validate_message(message):
+	"""Validates incoming cell address and message contents.
+
+	Checks address and drops if non-canadian or short code.
+	Checks body, identifies query if detected or returns menu.
+
+	Args: SMSMessage object.
+
+	Returns: SMSMessage object.
+
+	Raises: None.
+	"""
 	print "validating..."
 
 	# Drop messages from non-canadian addresses or short codes
@@ -73,6 +84,18 @@ def validate_command(message):
 
 #validator for API calls where there are 2 parameters
 def extract_parameters(message):
+	"""Extracts parameters from multi-parameter queries.
+
+	If parameter delimiter is present, split message and return
+	parameters. If not, return an 'invalid' message to the user.
+
+	Args: SMSMessage object.
+
+	Returns: SMSMessage object, parameter1, parameter2.
+
+	Raises: None.
+	"""
+	
 	if (message.message_body.count('/') == 1):
 		p1,p2 = message.message_body.split('/')
 		p1 = p1.strip()

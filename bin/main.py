@@ -22,7 +22,7 @@ def main():
 		if (message_list):	# If messages are available
 			print "Messages returned!"
 			for message in message_list: # Validate each message
-				message = message_validator.validate_command(message)
+				message = message_validator.validate_message(message)
 				if (message.message_status == 'query_2' or message.message_status == 'query_3'):
 					message,p1,p2 = message_validator.extract_parameters(message)
 				print "Message validated."
