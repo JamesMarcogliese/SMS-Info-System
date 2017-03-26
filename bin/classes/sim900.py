@@ -98,7 +98,6 @@ class SIM900:
 		while (message.message_body):
 			message_part = message.message_body[:160]
 			print "Part: " + message_part
-		        print "checking to see if num here: " + message.address_field 
 			message.message_body = message.message_body[160:]
 			print "Remaining: " + message.message_body
 			self.ser.write('AT+CMGS=\"+%s\"\r' % message.address_field)	# Destination address
