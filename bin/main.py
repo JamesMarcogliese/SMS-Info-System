@@ -32,7 +32,7 @@ def main():
 				elif (message.message_status == 'query_2'):
 					message.message_body = api_caller.directions_call(p1,p2)
 				elif (message.message_status == 'query_3'):
-                    message.message_body = api_caller.places_call(p1,p2)
+					message.message_body = api_caller.places_call(p1,p2)
 				elif (message.message_status == 'query_4'):
 					message.message_body = api_caller.news_call(message.message_body)
 				elif (message.message_status == 'query_5'):
