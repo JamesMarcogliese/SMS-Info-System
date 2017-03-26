@@ -73,16 +73,16 @@ def validate_command(message):
 
 #validator for API calls where there are 2 parameters
 def extract_parameters(message):
-    if (message.message_body.count('/') == 1):
-        p1,p2 = message.message_body.split('/')
-        p1 = p1.strip()
-        p1 = p2.strip()
-
-        if (p1 and p2):
-            return message, p1, p2
-    else:
-        message.message_status = 'invalid'
+	if (message.message_body.count('/') == 1):
+		p1,p2 = message.message_body.split('/')
+		p1 = p1.strip()
+		p1 = p2.strip()
+		
+		if (p1 and p2):
+			return message, p1, p2
+	else:
+		message.message_status = 'invalid'
 		message.message_body = ("Invalid query! Please specify command number" 
 								"at start of query and separate locations or categories" 
 								"with a single slash (/).")
-    return message, None, None
+	return message, None, None
