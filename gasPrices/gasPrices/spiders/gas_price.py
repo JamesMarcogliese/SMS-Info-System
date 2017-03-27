@@ -44,7 +44,7 @@ class GasPriceSpider(scrapy.Spider):
             
             for i in range(0,5):
                 #concatenate results to output
-                output = output + "\n" + price[i] + "\n" + address[i]
+                output = output + "\n" + "Rate: " + price[i] + "\n" + "Address: " + address[i]
             os.remove("/home/ubuntu/Capstone-SIS/gasPrices/gas_prices.json")    
             return output
         
