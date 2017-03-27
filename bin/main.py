@@ -38,7 +38,7 @@ def main():
 				elif (message.message_status == 'query_4'):
 					message.message_body = api_caller.news_call(message.message_body)
 				elif (message.message_status == 'query_5'):
-					message.message_body = gas_Script.get_gasPrice("hamilton")
+					message.message_body = gas_Script.get_gasPrice(message.message_body)
 					#print "In 5"
 
 				if (message.message_status == 'drop'): # If returning drop, drop object.

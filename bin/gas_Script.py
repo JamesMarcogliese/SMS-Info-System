@@ -2,6 +2,7 @@ import os
 import sys
 sys.path.insert(0, '/home/ubuntu/Capstone-SIS/gasPrices/gasPrices/spiders')
 import gas_price
+from gas_price import GasPriceSpider
 
 gas_price = GasPriceSpider()
 
