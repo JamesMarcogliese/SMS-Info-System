@@ -10,6 +10,7 @@ from classes.sim900 import SIM900
 from classes.smsMessage import SMSMessage
 import message_validator
 import api_caller
+import gas_Script
 
 
 def main():
@@ -37,8 +38,8 @@ def main():
 				elif (message.message_status == 'query_4'):
 					message.message_body = api_caller.news_call(message.message_body)
 				elif (message.message_status == 'query_5'):
-					#message.message_body = api_caller.places_call(message.message_body)
-					print "In 5"
+					message.message_body = gas_Script.get_gasPrice("hamilton")
+					#print "In 5"
 
 				if (message.message_status == 'drop'): # If returning drop, drop object.
 					print "Message dropped."
