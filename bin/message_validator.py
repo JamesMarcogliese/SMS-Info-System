@@ -28,8 +28,8 @@ menu_option2_detail = ("Reply in the format below for directions:\n"
 
 menu_option3_detail = ("Reply in the format below for places:\n"
 					   "'3' followed by category and location separated by a slash.\n"
-					   "Eg. 3 Food/Brampton,Ontario\n"
-					   "Eg. 3 Bank/Hamilton,Ontario")
+					   "Eg. 3 Bank/Hamilton,Ontario\n"
+					   "Eg. 3 Food/Brampton,Ontario")
 
 menu_option4_detail = ("Reply in the format below for news:\n"
 					   "'4' followed by news outlet name.\n"
