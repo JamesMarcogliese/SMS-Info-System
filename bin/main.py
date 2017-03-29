@@ -24,7 +24,7 @@ def main():
 			print "Messages returned!"
 			for message in message_list: # Validate each message
 				message = message_validator.validate_message(message)
-				if (message.message_status == 'query_2' or message.message_status == 'query_3'):
+				if (message.message_status == 'query_2' or message.message_status == 'query_3'): # If multi-parameter, split string
 					message,p1,p2 = message_validator.extract_parameters(message)
 					print p1 + p2
 				print "Message validated."
@@ -38,8 +38,7 @@ def main():
 				elif (message.message_status == 'query_4'):
 					message.message_body = api_caller.news_call(message.message_body)
 				elif (message.message_status == 'query_5'):
-					message.message_body = gas_Script.get_gasPrice(message.message_body)
-					#print "In 5"
+					message.message_body = api_caller.gas_call(message.message_body)
 
 				if (message.message_status == 'drop'): # If returning drop, drop object.
 					print "Message dropped."
