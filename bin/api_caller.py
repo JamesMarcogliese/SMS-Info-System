@@ -18,18 +18,36 @@ directions_api_key = 'AIzaSyChHK_pRbyKc3BrrpqIp4MvCzcHPimfrDQ'
 
 #Making API call to weather API.
 def weather_call(query):
-	payload = {'appid':weather_api_key,'q':query,'units':'metric'}
-	data = requests.get('http://api.openweathermap.org/data/2.5/weather', params=payload).json()
-
-	if (str(data['cod']) == "200"):
-		_cityName = "City Name: " + (data["name"])
-		_clouds = ("Clouds: " + data["weather"][0]["description"])
-		_temp = "Temperature: " + str(data["main"]["temp"])
-		_humidity = "Humidity: " + str(data["main"]["humidity"])
-		output = _cityName + "\n" + _clouds + "\n" + _temp + "\n" + _humidity
-	else:  #if no results found
-		output = "NO RESULTS FOUND"
-	return output
+    payload = {'appid':weather_api_key,'q':query,'units':'metric'}
+    data = requests.get('http://api.openweathermap.org/data/2.5/weather', params=payload).json()
+    
+    if (str(data['cod']) == "200"):
+        _title1 = "Current Weather"
+        _cityName = "City Name: " + (data["name"])
+        _clouds = ("Clouds: " + data["weather"][0]["description"])
+        _temp = "Temperature: " + str(data["main"]["temp"])
+        _humidity = "Humidity: " + str(data["main"]["humidity"])
+        _cityID = data["id"]
+        payload = {'appid':weather_api_key,'q':query,'units':'metric'}
+        data = requests.get('http://api.openweathermap.org/data/2.5/forecast', params=payload).json()
+        _title2 = "3 Day Forecast" 
+        _date1 = str(data['list'][3]['dt_txt'])
+        _date1, g1 = _date1.split(" ")
+        _day1 = "Temp: " + str(data['list'][3]['main']['temp_min']) + " precipitation " + str(data['list'][3]['weather'][0]['description'])
+        _date2 = str(data['list'][11]['dt_txt']) 
+        _day3 = "Temp: " + str(data['list'][11]['main']['temp_min']) + " precipitation: " +  str(data['list'][11]['weather'][0]['description'])
+        _date2, g2 = _date2.split(" ")
+        _day2 = "Temp: " + str(data['list'][19]['main']['temp_min'])  + " precipitation " +  str(data['list'][19]['weather'][0]['description'])
+        _date3 = str(data['list'][19]['dt_txt'])
+        _date3, g3 = _date3.split(" ")
+        output = (_title1 + "\n" + _cityName + "\n" + _clouds + "\n" + _temp + "\n" + _humidity  + "\n" + _title2 + "\n" + _date1 + " " + _day1
+                + "\n" + _date2 + " " + _day2 + "\n" + _date3 + " " + _day3)
+        
+        
+        return output
+    else:  #if no results found
+        output = "NO RESULTS FOUND"
+        return output
 
 #Making API Call to news api
 def news_call(source):

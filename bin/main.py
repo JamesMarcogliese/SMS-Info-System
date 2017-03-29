@@ -10,7 +10,7 @@ from classes.sim900 import SIM900
 from classes.smsMessage import SMSMessage
 import message_validator
 import api_caller
-import gas_Script
+
 
 
 def main():
