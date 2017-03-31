@@ -48,7 +48,7 @@ def main():
 					sim900.send_message(message)
 					print "Sent."
 
-		time.sleep(5)
+		time.sleep(1)
 	pass
 
 if __name__ == '__main__':
