@@ -14,7 +14,7 @@ import logging
 
 def main():
 	"""Main loop for the program."""
-	logging.info('Arrived in main loop')
+	logger.info('Arrived in main loop')
 	while True: # Loop Main
 		message_list = sim900.get_unread_messages()
 		if (message_list):	
@@ -22,7 +22,7 @@ def main():
 				message = message_validator.validate_message(message)
 				if (message.message_status == 'query_2' or message.message_status == 'query_3'): # If multi-parameter, split string
 					message,p1,p2 = message_validator.extract_parameters(message)
-				logging.debug('Message status: ' % message.message_status)
+				logger.debug('Message status: ' % message.message_status)
 				if (message.message_status == 'query_1'):
 					message.message_body = api_caller.weather_call(message.message_body)
 				elif (message.message_status == 'query_2'):
@@ -43,16 +43,16 @@ def main():
 	pass
 
 if __name__ == '__main__':
-	logging.basicConfig(level=logging.CRITICAL)
-	logging.getLogger(__name__)
-	logging.info('Started program')
+	logging.basicConfig(level=logging.DEBUG)
+	logger = logging.getLogger(__name__)
+	logger.info('Started program')
 	try:
 		sim900 = SIM900()
 		main()
 	except KeyboardInterrupt:
-		logging.exception('Killed by user')
+		logger.exception('Killed by user')
 		sys.exit(0)
 	except:
 		e = sys.exc_info()[0]
-		logging.exception('Other exception occured: %s' % e)
+		logger.exception('Other exception occured: %s' % e)
 		sys.exit(1)
