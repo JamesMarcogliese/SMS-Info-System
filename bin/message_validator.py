@@ -9,6 +9,9 @@ import re
 from collections import defaultdict
 from classes.smsMessage import SMSMessage
 import api_caller
+import logging
+
+logging.getLogger(__name__)
 
 main_menu = ("--Welcome to SIS--\n"
 			 "Reply with one of the numbers below.\n"
@@ -61,7 +64,7 @@ def validate_message(message):
 
 	Raises: None.
 	"""
-	print "validating..."
+	logging.info('Validating message...')
 
 	# Drop messages from non-canadian addresses or short codes
 	if (not message.address_field.startswith('+1') or
@@ -73,6 +76,7 @@ def validate_message(message):
 		message.address_field = message.address_field[2:]
 
 	# Validate command if present
+	logging.debug('Message body: %s' % message.message_body)
 	message.message_body = message.message_body.lower()
 	option = options[message.message_body[:1]]
 	message.message_body = message.message_body.lstrip(option[0]).strip()
@@ -103,6 +107,7 @@ def extract_parameters(message):
 		p2 = p2.strip()
 		
 		if (p1 and p2):
+			logging.debug('Param1: %s Param2: %s' % (p1,p2))
 			return message, p1, p2
 		else:
 			message.message_status = 'invalid'

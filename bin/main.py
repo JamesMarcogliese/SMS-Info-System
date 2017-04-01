@@ -10,25 +10,19 @@ from classes.sim900 import SIM900
 from classes.smsMessage import SMSMessage
 import message_validator
 import api_caller
-
-
+import logging
 
 def main():
-	"""Main entry point for the script."""
-
+	"""Main loop for the program."""
+	logger.info('Arrived in main loop')
 	while True: # Loop Main
-		print "In Main"
-		message_list = sim900.get_unread_messages() # Get messages if available
-		print "Getting messages..."
-		if (message_list):	# If messages are available
-			print "Messages returned!"
+		message_list = sim900.get_unread_messages()
+		if (message_list):	
 			for message in message_list: # Validate each message
 				message = message_validator.validate_message(message)
 				if (message.message_status == 'query_2' or message.message_status == 'query_3'): # If multi-parameter, split string
 					message,p1,p2 = message_validator.extract_parameters(message)
-					print p1 + p2
-				print "Message validated."
-				print message.message_status
+				logger.debug('Message status: ' % message.message_status)
 				if (message.message_status == 'query_1'):
 					message.message_body = api_caller.weather_call(message.message_body)
 				elif (message.message_status == 'query_2'):
@@ -41,25 +35,24 @@ def main():
 					message.message_body = api_caller.gas_call(message.message_body)
 
 				if (message.message_status == 'drop'): # If returning drop, drop object.
-					print "Message dropped."
 					del	message
 				else:
-					print "Results getting returned..."
 					sim900.send_message(message)
-					print "Sent."
 
 		time.sleep(1)
 	pass
 
 if __name__ == '__main__':
+	logging.basicConfig(level=logging.DEBUG)
+	logger = logging.getLogger(__name__)
+	logger.info('Started program')
 	try:
 		sim900 = SIM900()
 		main()
 	except KeyboardInterrupt:
-		print "Killed by user"
+		logger.exception('Killed by user')
 		sys.exit(0)
 	except:
-		print "Other exception occured!"
 		e = sys.exc_info()[0]
-		print e
+		logger.exception('Other exception occured: %s' % e)
 		sys.exit(1)
