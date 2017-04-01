@@ -50,10 +50,9 @@ if __name__ == '__main__':
 		sim900 = SIM900()
 		main()
 	except KeyboardInterrupt:
-		print "Killed by user"
+		logging.exception('Killed by user')
 		sys.exit(0)
 	except:
-		print "Other exception occured!"
 		e = sys.exc_info()[0]
-		print e
+		logging.exception('Other exception occured: %s' % e)
 		sys.exit(1)
