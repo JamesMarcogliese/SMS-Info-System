@@ -38,8 +38,6 @@ def main():
 					del	message
 				else:
 					sim900.send_message(message)
-
-		time.sleep(1)
 	pass
 
 if __name__ == '__main__':

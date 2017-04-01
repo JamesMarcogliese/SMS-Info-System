@@ -46,10 +46,13 @@ class SIM900:
 		# Forbid incoming calls
 		self.ser.write('AT+GSMBUSY=1\r')
 		# Set command echo mode off
+		time.sleep(1)
 		self.ser.write('ATE0\r')
 		# Set result code off
+		time.sleep(1)
 		self.ser.write('ATQ1\r')
 		# Set SMS Message Format to Text
+		time.sleep(1)
 		self.ser.write('AT+CMGF=1\r')
 		logging.info('Initial SIM900 config set')
 		pass
@@ -137,6 +140,7 @@ class SIM900:
 
 		if (response):
 			logging.info('New messages found')
+			logging.debug('-%s-' % response)
 			message_list = []
 			match = re.finditer("\+CMGL: (\d+),""(.+)"",""(.+)"",\"\",""(.+)""\n(.+)\n", response)
 			for each in match:
