@@ -17,12 +17,12 @@ def main():
 	logger.info('Arrived in main loop')
 	while True: # Loop Main
 		message_list = sim900.get_unread_messages()
-		if (message_list):	
+		if (message_list):
 			for message in message_list: # Validate each message
 				message = message_validator.validate_message(message)
 				if (message.message_status == 'query_2' or message.message_status == 'query_3'): # If multi-parameter, split string
 					message,p1,p2 = message_validator.extract_parameters(message)
-				logger.debug('Message status: ' % message.message_status)
+				logger.debug('Message status: %s' % message.message_status)
 				if (message.message_status == 'query_1'):
 					message.message_body = api_caller.weather_call(message.message_body)
 				elif (message.message_status == 'query_2'):
@@ -38,8 +38,6 @@ def main():
 					del	message
 				else:
 					sim900.send_message(message)
-
-		time.sleep(1)
 	pass
 
 if __name__ == '__main__':
@@ -50,7 +48,7 @@ if __name__ == '__main__':
 		sim900 = SIM900()
 		main()
 	except KeyboardInterrupt:
-		logger.exception('Killed by user')
+		logger.info('Killed by user')
 		sys.exit(0)
 	except:
 		e = sys.exc_info()[0]

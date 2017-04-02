@@ -7,6 +7,8 @@ import re
 from smsMessage import SMSMessage
 import logging
 
+logger = logging.getLogger(__name__)
+
 class SIM900:
 
 	"""SIM900 GSM Module class.
@@ -16,6 +18,7 @@ class SIM900:
 	"""
 
 	ser = None
+	logger = None
 
 	def __init__(self):
 
@@ -24,9 +27,8 @@ class SIM900:
 		Sets up GPIO, serial connection, turns on board and performs
 		initial SIM900 config.
 		"""
-		logging.getLogger(__name__)
-		logging.info('Init SIM900')
-		logging.info('Setup GPIO and serial...')
+		logger.info('Init SIM900')
+		logger.info('Setup GPIO and serial...')
 		# Set GPIO to BOARD reference
 		GPIO.setmode(GPIO.BOARD)
 		# Set power and reset key pin and as OUTPUT
@@ -34,24 +36,30 @@ class SIM900:
 
 		# Create serial object and open on port '/dev/ttyAMA0' with baud 115200 and timeout=0
 		self.ser = serial.Serial('/dev/ttyAMA0', 115200, timeout=0)
-		logging.info('GPIO and serial set up')
+		logger.info('GPIO and serial set up')
 		# Toggle power on board. If startup sequence is not returned, cycle again.
 		self.power_toggle()
 		time.sleep(10)
 		if ("IIII" not in self.ser.read(size = self.ser.in_waiting)):
 			self.power_toggle()
 
-		logging.info('Module is ON')
-		logging.info('Setting initial SIM900 config...')
+		logger.info('Module is ON')
+		logger.info('Setting initial SIM900 config...')
 		# Forbid incoming calls
 		self.ser.write('AT+GSMBUSY=1\r')
 		# Set command echo mode off
+		time.sleep(1)
 		self.ser.write('ATE0\r')
 		# Set result code off
+		time.sleep(1)
 		self.ser.write('ATQ1\r')
 		# Set SMS Message Format to Text
+		time.sleep(1)
 		self.ser.write('AT+CMGF=1\r')
-		logging.info('Initial SIM900 config set')
+		# Disable unsolicited new message notifications
+		time.sleep(1)
+		self.ser.write('AT+CNMI=0,0,0,0,0')
+		logger.info('Initial SIM900 config set')
 		pass
 
 	def __del__(self):
@@ -59,11 +67,11 @@ class SIM900:
 
 		Closes the serial connection, turns off SIM900 board, and cleans up GPIO.
 		"""
-		logging.info('Terminating SIM900 object...')
+		logger.info('Terminating SIM900 object...')
 		self.ser.close()
 		self.power_toggle()
 		GPIO.cleanup()
-		logging.info('SIM900 object terminated')
+		logger.info('SIM900 object terminated')
 		pass
 
 	def power_toggle(self):
@@ -78,7 +86,7 @@ class SIM900:
 
 		Raises: None.
 		"""
-		logging.info('Cycling power...')
+		logger.info('Cycling power...')
 		GPIO.output(11, GPIO.HIGH)
 		time.sleep(2)
 		GPIO.output(11, GPIO.LOW)
@@ -99,18 +107,18 @@ class SIM900:
 		Raises: None.
 		"""
 
-		logging.info('Sending message...')
+		logger.info('Sending message...')
 		while (message.message_body):
 			message_part = message.message_body[:160]
-			logging.debug('Message part: %s' % message_part)
+			logger.debug('Message part: %s' % message_part)
 			message.message_body = message.message_body[160:]
-			logging.debug('Remaining part: %s' % message.message_body)
+			logger.debug('Remaining part: %s' % message.message_body)
 			self.ser.write('AT+CMGS=\"+%s\"\r' % message.address_field)	# Destination address
 			time.sleep(1)
 			self.ser.write("%s" % str(message_part)) # Message
 			time.sleep(1)
 			self.ser.write(chr(26))	# End of text requires (^Z)
-			logging.info('Message sent')
+			logger.info('Message sent')
 			time.sleep(5)
 		return
 
@@ -128,7 +136,7 @@ class SIM900:
 
 		Raises: None.
 		"""
-		logging.info('Checking for unread messages...')
+		logger.info('Checking for unread messages...')
 		self.ser.reset_input_buffer()
 
 		self.ser.write('AT+CMGL="REC UNREAD"\r')	# Request all unread messages
@@ -136,7 +144,8 @@ class SIM900:
 		response = self.ser.read(size = self.ser.in_waiting) # Read all unread messages
 
 		if (response):
-			logging.info('New messages found')
+			logger.info('New messages found')
+			logger.debug('-%s-' % response)
 			message_list = []
 			match = re.finditer("\+CMGL: (\d+),""(.+)"",""(.+)"",\"\",""(.+)""\n(.+)\n", response)
 			for each in match:
@@ -149,7 +158,7 @@ class SIM900:
 				message_list.append(message)
 			self.delete_messages()
 			return message_list
-		logging.info('No messages found')
+		logger.info('No messages found')
 		return None
 
 
@@ -166,10 +175,10 @@ class SIM900:
 
 		Raises: None.
 		"""
-		logging.info('Deleting read messages')
+		logger.info('Deleting read messages')
 		self.ser.write('AT+CMGDA="DEL READ"\r')
 		time.sleep(1)
-		logging.info('Deleting sent messages')
+		logger.info('Deleting sent messages')
 		self.ser.write('AT+CMGDA="DEL SENT"\r')
 		time.sleep(1)
 
