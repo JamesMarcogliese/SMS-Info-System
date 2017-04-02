@@ -5,7 +5,7 @@ import requests
 import re
 import logging
 
-logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 """api_caller module
 
@@ -21,10 +21,10 @@ directions_api_key = 'AIzaSyChHK_pRbyKc3BrrpqIp4MvCzcHPimfrDQ'
 
 #Making API call to weather API.
 def weather_call(query):
-	logging.debug('Weather query: %s' % query)
+	logger.debug('Weather query: %s' % query)
 	payload = {'appid':weather_api_key,'q':query,'units':'metric'}
 	data = requests.get('http://api.openweathermap.org/data/2.5/weather', params=payload).json()
-    
+
 	if (str(data['cod']) == "200"):
 		_title1 = "Current Weather"
 		_cityName = "City Name: " + (data["name"])
@@ -45,17 +45,17 @@ def weather_call(query):
 		_date3 = str(data['list'][19]['dt_txt'])
 		_date3, g3 = _date3.split(" ")
 		output = (_title1 + "\n" + _cityName + "\n" + _clouds + "\n" + _temp + "\n" + _humidity  + "\n" + _title2 + "\n" + _date1 + " " + _day1
-				+ "\n" + _date2 + " " + _day2 + "\n" + _date3 + " " + _day3)        
-		logging.debug('Results found')
+				+ "\n" + _date2 + " " + _day2 + "\n" + _date3 + " " + _day3)
+		logger.debug('Results found')
 		return output
 	else:  #if no results found
-		logging.debug('No results found')
+		logger.debug('No results found')
 		output = "NO RESULTS FOUND"
 		return output
 
 #Making API Call to news api
 def news_call(source):
-	logging.debug('News query: %s' % source)
+	logger.debug('News query: %s' % source)
 
 	payload = {'source':source,'apiKey':news_api_key}
 	data = requests.get('https://newsapi.org/v1/articles', params=payload).json()
@@ -69,12 +69,12 @@ def news_call(source):
 			output = "\n" + _title + "\n" + _desc
 	else:
 		output = "NO RESULTS FOUND"
-		logging.debug('No results found')
-	logging.debug('Results found')
+		logger.debug('No results found')
+	logger.debug('Results found')
 	return output
 
 def places_call(place_type, address):
-	logging.debug('Places query: %s at %s' % (place_type, address))
+	logger.debug('Places query: %s at %s' % (place_type, address))
 	place_types_dict = {'hospital', 'food', 'restaurant','hindu_temple', 'university', 'veterinary_care',
 		'travel_agency', 'transit_station', 'train_station', 'taxi_stand', 'subway_station', 'store',
 		'storage', 'stadium', 'spa', 'shopping_mall', 'shoe_store', 'school' ,'rv_park', 'roofing_contractor',
@@ -87,11 +87,11 @@ def places_call(place_type, address):
 		'convenience_store', 'courthouse', 'dentist', 'department_store', 'doctor', 'electrician',
 		'electronics_store', 'embassy', 'florist', 'funeral_home' ,'furniture_store', 'gas_station',
 		'gym','hair_care', 'hardware_store'}
-		
+
 	payload = {'query':place_type+address,'key':place_api_key}
 	r = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json', params=payload).json()
 	output = ''
-	
+
 	if (str(r['status']) == "OK"): #if results are found
 		count=len(r['results'])
 		if (count > 3):
@@ -113,23 +113,23 @@ def places_call(place_type, address):
 				_rating = "Rating: " + str(r['results'][i]['rating'])
 				_openStatus =  "Open: " + str(r['results'][i]['opening_hours']['open_now'])
 				output = output + "\n" + _name + "\n" + _address + "\n" + _rating + "\n" + _openStatus + "\n" + _phone
-		logging.debug('Results found')
+		logger.debug('Results found')
 		return output
 	#if no results found
 	else:
-		logging.debug('No results found')
+		logger.debug('No results found')
 		output = "NO RESULTS FOUND"
 		return output
 
 #Making API call to directions API.
 def directions_call(start, end):
-	logging.debug('Directions query start: %s and end: %s' % (start, end))
+	logger.debug('Directions query start: %s and end: %s' % (start, end))
 	output = ''
 	start = start.replace(" ", "+");
 	end = end.replace(" ", "+");
 	payload = {'origin':start,'destination':end,'key':directions_api_key}
 	r = requests.get('https://maps.googleapis.com/maps/api/directions/json', params=payload).json()
-	
+
 	#if results are found
 	if (str(r['status']) == "OK"):
 		#store start, end, total distance, and total time into variables
@@ -137,11 +137,11 @@ def directions_call(start, end):
 		_end = "End location: " + r['routes'][0]['legs'][0]['end_address']
 		_totalDist = "Total distance: " + r['routes'][0]['legs'][0]['distance']['text']
 		_totalTime = "Total time: " + r['routes'][0]['legs'][0]['duration']['text']
-		
+
 		#Counts the number of steps towards destination
 		stepCount = len(r['routes'][0]['legs'][0]['steps'])
 		#display step by step directions
-		
+
 		for i in range(stepCount):
 			instruction = str(r['routes'][0]['legs'][0]['steps'][i]['html_instructions'])
 			#adds spacing to XML tags to avoid format errors
@@ -157,15 +157,15 @@ def directions_call(start, end):
 			output = output + stepString
 		#concatenate start,end,total distance, and total time to final output
 		output = "\n" + _start + "\n" + _end + "\n" + _totalDist + "\n" + _totalTime + "\n" + output
-		logging.debug('Results found')
+		logger.debug('Results found')
 		return output
 	else: #if no results found
 		output = "NO RESULTS FOUND"
-		logging.debug('No results found')
+		logger.debug('No results found')
 		return output
-		
+
 def gas_call(address):
-	logging.debug('Gas prices query at: %s' % address)
+	logger.debug('Gas prices query at: %s' % address)
 	gas_buddy_url = "https://www.gasbuddy.com/Home/Search"
 	payload = {"s":address}
 	r = requests.post(gas_buddy_url, payload)
@@ -180,12 +180,9 @@ def gas_call(address):
 			address = "Address: " + r['stations'][i]['CrossSt']
 			price = "Price: " + str(r['stations'][i]['CheapestFuel']['CreditPrice']['Amount'])
 			output += (name + '\n' + address + '\n' + price + '\n')
-		logging.debug('Results found')
+		logger.debug('Results found')
 		return output
 	else:
-		logging.debug('Results found')
+		logger.debug('Results found')
 		output = "NO RESULTS FOUND"
 		return output
-	
-	
-	
