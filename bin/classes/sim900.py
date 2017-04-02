@@ -54,6 +54,9 @@ class SIM900:
 		# Set SMS Message Format to Text
 		time.sleep(1)
 		self.ser.write('AT+CMGF=1\r')
+		# Disable unsolicited new message notifications
+		time.sleep(1)
+		self.ser.write('AT+CNMI=0,0,0,0,0')
 		logging.info('Initial SIM900 config set')
 		pass
 
