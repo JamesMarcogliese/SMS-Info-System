@@ -1,0 +1,69 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module bin.message_validator</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="bin.html"><font color="#ffffff">bin</font></a>.message_validator</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/ubuntu/Capstone-SIS/bin/message_validator.py">/home/ubuntu/Capstone-SIS/bin/message_validator.py</a></font></td></tr></table>
+    <p><tt>message_validator&nbsp;module<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;validates&nbsp;commands&nbsp;and&nbsp;arguments&nbsp;of&nbsp;an&nbsp;incoming&nbsp;message.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="bin.api_caller.html">bin.api_caller</a><br>
+</td><td width="25%" valign=top><a href="logging.html">logging</a><br>
+</td><td width="25%" valign=top><a href="re.html">re</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-extract_parameters"><strong>extract_parameters</strong></a>(message)</dt><dd><tt>Extracts&nbsp;parameters&nbsp;from&nbsp;multi-parameter&nbsp;queries.<br>
+&nbsp;<br>
+If&nbsp;parameter&nbsp;delimiter&nbsp;is&nbsp;present,&nbsp;split&nbsp;message&nbsp;and&nbsp;return<br>
+parameters.&nbsp;If&nbsp;not,&nbsp;return&nbsp;an&nbsp;'invalid'&nbsp;message&nbsp;to&nbsp;the&nbsp;user.<br>
+&nbsp;<br>
+Args:&nbsp;SMSMessage&nbsp;object.<br>
+&nbsp;<br>
+Returns:&nbsp;SMSMessage&nbsp;object,&nbsp;parameter1,&nbsp;parameter2.<br>
+&nbsp;<br>
+Raises:&nbsp;None.</tt></dd></dl>
+ <dl><dt><a name="-validate_message"><strong>validate_message</strong></a>(message)</dt><dd><tt>Validates&nbsp;incoming&nbsp;cell&nbsp;address&nbsp;and&nbsp;message&nbsp;contents.<br>
+&nbsp;<br>
+Checks&nbsp;address&nbsp;and&nbsp;drops&nbsp;if&nbsp;non-canadian&nbsp;or&nbsp;short&nbsp;code.<br>
+Checks&nbsp;body,&nbsp;identifies&nbsp;query&nbsp;if&nbsp;detected&nbsp;or&nbsp;returns&nbsp;menu.<br>
+&nbsp;<br>
+Args:&nbsp;SMSMessage&nbsp;object.<br>
+&nbsp;<br>
+Returns:&nbsp;SMSMessage&nbsp;object.<br>
+&nbsp;<br>
+Raises:&nbsp;None.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>area_codes</strong> = [403, 780, 250, 604, 204, 506, 709, 867, 902, 416, 519, 613, 705, 807, 905, 418, 450, 514, 819, 306, ...]<br>
+<strong>logger</strong> = &lt;logging.Logger object&gt;<br>
+<strong>main_menu</strong> = '--Welcome to SIS--<font color="#c040c0">\n</font>Reply with one of the numbers...or Places of Interest<font color="#c040c0">\n</font>4 for News<font color="#c040c0">\n</font>5 for Gas Prices'<br>
+<strong>menu_option1_detail</strong> = "Reply in the format below for weather:<font color="#c040c0">\n</font>'1' followed by location.<font color="#c040c0">\n</font>Eg. 1 Oakville,Ontario"<br>
+<strong>menu_option2_detail</strong> = "Reply in the format below for directions:<font color="#c040c0">\n</font>'2' fo....<font color="#c040c0">\n</font>Eg. 2 123 Regal Ct,Oakville/56 Muns,Mississuaga"<br>
+<strong>menu_option3_detail</strong> = "Reply in the format below for places:<font color="#c040c0">\n</font>'3' follow...Bank/Hamilton,Ontario<font color="#c040c0">\n</font>Eg. 3 Food/Brampton,Ontario"<br>
+<strong>menu_option4_detail</strong> = "Reply in the format below for news:<font color="#c040c0">\n</font>'4' followed by news outlet name.<font color="#c040c0">\n</font>Eg. 4 cnn<font color="#c040c0">\n</font>Eg. 4 espn"<br>
+<strong>menu_option5_detail</strong> = "Reply in the format below for gas prices:<font color="#c040c0">\n</font>'5' followed by location.<font color="#c040c0">\n</font>Eg. 5 Mississauga"<br>
+<strong>options</strong> = defaultdict(&lt;function &lt;lambda&gt; at 0x76338730&gt;, {..., '4': ['4 ', 'query_4', 'menu_option4_detail']})</td></tr></table>
+</body></html>
