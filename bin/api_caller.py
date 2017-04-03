@@ -178,7 +178,7 @@ def gas_call(address):
 		for i in range(count):
 			name = "Name: " + r['stations'][i]['Name']
 			address = "Address: " + r['stations'][i]['CrossSt']
-			if (r['stations'][i]['CheapestFuel']['CreditPrice']):
+			if (r['stations'][i]['CheapestFuel']['CreditPrice'] is not None):
 				price = "Price: " + str(r['stations'][i]['CheapestFuel']['CreditPrice']['Amount'])
 			else:
 				price = "Price: " + str(r['stations'][i]['CheapestFuel']['CashPrice']['Amount'])
