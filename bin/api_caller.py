@@ -49,8 +49,8 @@ def weather_call(query):
 		logger.debug('Results found')
 		return output
 	else:  #if no results found
-		logger.debug('No results found')
-		output = "NO RESULTS FOUND"
+		logger.debug('ERROR with news query')
+		output = "Unable to return results for weather at this time."
 		return output
 
 #Making API Call to news api
@@ -68,8 +68,8 @@ def news_call(source):
 			_desc =  "Description: " + data['articles'][i]['description']
 			output = "\n" + _title + "\n" + _desc
 	else:
-		output = "NO RESULTS FOUND"
-		logger.debug('No results found')
+		output = "Unable to return results for news at this time."
+		logger.debug('ERROR with news query')
 	logger.debug('Results found')
 	return output
 
@@ -115,12 +115,16 @@ def places_call(place_type, address):
 				_rating = "Rating: " + str(r['results'][i]['rating'])
 				_openStatus =  "Open: " + str(r['results'][i]['opening_hours']['open_now'])
 				output = output + "\n" + _name + "\n" + _address + "\n" + _rating + "\n" + _openStatus + "\n" + _phone
-		logger.debug('Results found')
+		if (output == ''):
+			logger.debug('No Results found')
+			output = 'No results found.'
+		else:
+			logger.debug('Results found')
 		return output
 	#if no results found
 	else:
-		logger.debug('No results found')
-		output = "NO RESULTS FOUND"
+		logger.debug('ERROR with places query')
+		output = "Unable to return results for places at this time."
 		return output
 
 #Making API call to directions API.
@@ -162,8 +166,8 @@ def directions_call(start, end):
 		logger.debug('Results found')
 		return output
 	else: #if no results found
-		output = "NO RESULTS FOUND"
-		logger.debug('No results found')
+		output = "Unable to return results for places at this time."
+		logger.debug('ERROR with directions query')
 		return output
 
 def gas_call(address):
