@@ -98,6 +98,8 @@ def places_call(place_type, address):
 			count = 3
 
 		for i in range(count):
+			if (r[results][i][permanently_closed] is True):
+				continue
 			_name = "Name: " + r['results'][i]['name']
 			_address = "Address: " + r['results'][i]['formatted_address']
 			#query to get phone number
