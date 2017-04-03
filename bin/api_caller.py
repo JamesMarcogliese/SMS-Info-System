@@ -178,11 +178,14 @@ def gas_call(address):
 		for i in range(count):
 			name = "Name: " + r['stations'][i]['Name']
 			address = "Address: " + r['stations'][i]['CrossSt']
-			price = "Price: " + str(r['stations'][i]['CheapestFuel']['CreditPrice']['Amount'])
+			if (r['stations'][i]['CheapestFuel']['CreditPrice'] is not None):
+				price = "Price: " + str(r['stations'][i]['CheapestFuel']['CreditPrice']['Amount'])
+			else:
+				price = "Price: " + str(r['stations'][i]['CheapestFuel']['CashPrice']['Amount'])
 			output += (name + '\n' + address + '\n' + price + '\n')
 		logger.debug('Results found')
 		return output
 	else:
-		logger.debug('Results found')
-		output = "NO RESULTS FOUND"
+		logger.debug('ERROR with gas prices query')
+		output = "Unable to return results for gas prices at this time."
 		return output
