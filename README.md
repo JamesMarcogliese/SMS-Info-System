@@ -14,4 +14,19 @@ receive queries submitted to it by a client's cellular text message (SMS), perfo
 world wide web via APIs, and respond with the gathered information back to the requester. The
 program to undertake the required functions is programmed in Python and run on a single-
 board computer (Raspberry Pi 2) connected to the internet. A GSM module connected to the machine allows
-sending and receiving of text messages to and from clients. 
+sending and receiving of text messages to and from clients.
+
+<p align="center">
+  <img src="https://cloud.githubusercontent.com/assets/19783321/24681842/ecded3d6-1964-11e7-9713-67a1730d4521.png" width="200"/>
+  <img src="https://cloud.githubusercontent.com/assets/19783321/24681843/ece0cd08-1964-11e7-9a3d-c1715ff794dc.png" width="200"/>
+  
+  <img src="https://cloud.githubusercontent.com/assets/19783321/24681844/ece1d342-1964-11e7-96ea-951d66bec832.png" width="200"/>
+  <img src="https://cloud.githubusercontent.com/assets/19783321/24681845/ece289f4-1964-11e7-9f12-a5beecd7e517.png" width="200"/>
+  
+  <img src="https://cloud.githubusercontent.com/assets/19783321/24681846/ece6064c-1964-11e7-8bc8-9807a6fe81bb.png" width="200"/>
+  <img src="https://cloud.githubusercontent.com/assets/19783321/24681847/ece7bf1e-1964-11e7-97d2-255183399591.png" width="200"/>
+  
+  <img src="https://cloud.githubusercontent.com/assets/19783321/24681848/ecec11ae-1964-11e7-95e8-528f8d32cb9e.png" width="200"/>
+  <img src="https://cloud.githubusercontent.com/assets/19783321/24681849/ececd7ba-1964-11e7-9634-5d654513e20b.png" width="200"/>
+</p>
+
