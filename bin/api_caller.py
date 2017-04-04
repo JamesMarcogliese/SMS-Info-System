@@ -15,7 +15,7 @@ makes the call to the respective API.
 """
 # API Keys
 weather_api_key = '6c0b081fbb4411e1fc3d6836fe090fed'
-place_api_key = 'AIzaSyBJ-HaEFhUJC_hz1kC3UsKpyNDz8l5n2FQ'
+place_api_key = 'AIzaSyDUichhgIGA_Tmc8i_yz-Rb3gmmSiuTZxQ'
 news_api_key = 'c743d7069e6a4f4b95e800e6915f2612'
 directions_api_key = 'AIzaSyChHK_pRbyKc3BrrpqIp4MvCzcHPimfrDQ'
 
@@ -75,7 +75,7 @@ def news_call(source):
 
 def places_call(place_type, address):
 	logger.debug('Places query: %s at %s' % (place_type, address))
-	place_types_dict = {'hospital', 'food', 'restaurant','hindu_temple', 'university', 'veterinary_care',
+	place_types_dict = {'hospital','atm', 'food', 'restaurant','hindu_temple', 'university', 'veterinary_care',
 		'travel_agency', 'transit_station', 'train_station', 'taxi_stand', 'subway_station', 'store',
 		'storage', 'stadium', 'spa', 'shopping_mall', 'shoe_store', 'school' ,'rv_park', 'roofing_contractor',
 		'real_estate_agency', 'post_office', 'police', 'plumber', 'physiotherapist', 'pharmacy','car_rental',
@@ -91,36 +91,41 @@ def places_call(place_type, address):
 	payload = {'query':place_type+address,'key':place_api_key}
 	r = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json', params=payload).json()
 	output = ''
-
+	
 	if (str(r['status']) == "OK"): #if results are found
 		count=len(r['results'])
 		if (count > 3):
 			count = 3
 
 		for i in range(count):
-			if (r['results'][i]['permanently_closed'] is True):
-				continue
-			_name = "Name: " + r['results'][i]['name']
-			_address = "Address: " + r['results'][i]['formatted_address']
-			#query to get phone number
-			place_id = r['results'][i]['place_id']
-			payload = {'placeid':place_id,'key':place_api_key}
-			r2 = requests.get('https://maps.googleapis.com/maps/api/place/details/json', params=payload).json()
-			#store phone number into variable
-			_phone = "Phone No: " +  r2['result']['formatted_phone_number']
+			if ('permanently_closed' not in r['results'][i]):
+				_name = "Name: " + r['results'][i]['name']
+				_address = "Address: " + r['results'][i]['formatted_address']
+				#query to get phone number
+				place_id = r['results'][i]['place_id']
+				payload = {'placeid':place_id,'key':place_api_key}
+				r2 = requests.get('https://maps.googleapis.com/maps/api/place/details/json', params=payload).json()
+			
+	
+				#store phone number into variable
+				_phone = "Phone No: " +  r2['result']['formatted_phone_number']
 
-			if (place_type in place_types_dict):
-				output = output + "\n" + _name + "\n" + _address + "\n" + _phone
-			else:   #for names not in dictionary
-				_rating = "Rating: " + str(r['results'][i]['rating'])
-				_openStatus =  "Open: " + str(r['results'][i]['opening_hours']['open_now'])
-				output = output + "\n" + _name + "\n" + _address + "\n" + _rating + "\n" + _openStatus + "\n" + _phone
+				if (place_type in place_types_dict):
+					output = output + "\n" + _name + "\n" + _address + "\n" + _phone
+				else:   #for names not in dictionary
+					_rating = "Rating: " + str(r['results'][i]['rating'])
+					_openStatus =  "Open: " + str(r['results'][i]['opening_hours']['open_now'])
+					output = output + "\n" + _name + "\n" + _address + "\n" + _rating + "\n" + _openStatus + "\n" + _phone
+			elif ('permanently_closed' in r['results'][i]):
+				output = 'Place searched for is permanently closed.'
+				return output
 		if (output == ''):
 			logger.debug('No Results found')
 			output = 'No results found.'
+			
 		else:
 			logger.debug('Results found')
-		return output
+			return output
 	#if no results found
 	else:
 		logger.debug('ERROR with places query')
