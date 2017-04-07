@@ -40,7 +40,10 @@ def main():
 					else:
 						sim900.send_message(message)
 				except:
+					e = sys.exc_info()[0]
 					logger.exception('Other exception occured: %s' % e)
+					message.message_body = "An exception has occured. Cannot process query."
+					sim900.send_message(message)
 
 	pass
 
