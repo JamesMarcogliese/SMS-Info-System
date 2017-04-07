@@ -19,25 +19,29 @@ def main():
 		message_list = sim900.get_unread_messages()
 		if (message_list):
 			for message in message_list: # Validate each message
-				message = message_validator.validate_message(message)
-				if (message.message_status == 'query_2' or message.message_status == 'query_3'): # If multi-parameter, split string
-					message,p1,p2 = message_validator.extract_parameters(message)
-				logger.debug('Message status: %s' % message.message_status)
-				if (message.message_status == 'query_1'):
-					message.message_body = api_caller.weather_call(message.message_body)
-				elif (message.message_status == 'query_2'):
-					message.message_body = api_caller.directions_call(p1,p2)
-				elif (message.message_status == 'query_3'):
-					message.message_body = api_caller.places_call(p1,p2)
-				elif (message.message_status == 'query_4'):
-					message.message_body = api_caller.news_call(message.message_body)
-				elif (message.message_status == 'query_5'):
-					message.message_body = api_caller.gas_call(message.message_body)
+				try:
+					message = message_validator.validate_message(message)
+					if (message.message_status == 'query_2' or message.message_status == 'query_3'): # If multi-parameter, split string
+						message,p1,p2 = message_validator.extract_parameters(message)
+					logger.debug('Message status: %s' % message.message_status)
+					if (message.message_status == 'query_1'):
+						message.message_body = api_caller.weather_call(message.message_body)
+					elif (message.message_status == 'query_2'):
+						message.message_body = api_caller.directions_call(p1,p2)
+					elif (message.message_status == 'query_3'):
+						message.message_body = api_caller.places_call(p1,p2)
+					elif (message.message_status == 'query_4'):
+						message.message_body = api_caller.news_call(message.message_body)
+					elif (message.message_status == 'query_5'):
+						message.message_body = api_caller.gas_call(message.message_body)
 
-				if (message.message_status == 'drop'): # If returning drop, drop object.
-					del	message
-				else:
-					sim900.send_message(message)
+					if (message.message_status == 'drop'): # If returning drop, drop object.
+						del	message
+					else:
+						sim900.send_message(message)
+				except:
+					logger.exception('Other exception occured: %s' % e)
+
 	pass
 
 if __name__ == '__main__':

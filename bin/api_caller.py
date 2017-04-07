@@ -114,8 +114,8 @@ def places_call(place_type, address):
 					output = output + "\n" + _name + "\n" + _address + "\n" + _phone
 				else:   #for names not in dictionary
 					_rating = "Rating: " + str(r['results'][i]['rating'])
-					_openStatus =  "Open: " + str(r['results'][i]['opening_hours']['open_now'])
-					output = output + "\n" + _name + "\n" + _address + "\n" + _rating + "\n" + _openStatus + "\n" + _phone
+					#_openStatus =  "Open: " + str(r['results'][i]['opening_hours']['open_now'])
+					output = output + "\n" + _name + "\n" + _address + "\n" + _rating + "\n" + _phone
 			elif ('permanently_closed' in r['results'][i]):
 				output = 'Place searched for is permanently closed.'
 				return output
