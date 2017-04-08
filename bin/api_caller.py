@@ -26,23 +26,23 @@ def weather_call(query):
 	data = requests.get('http://api.openweathermap.org/data/2.5/weather', params=payload).json()
 
 	if (str(data['cod']) == "200"):
-		_title1 = "Current Weather:"
+		_title1 = "Current Weather---"
 		_cityName = "City Name: " + (data["name"])
 		_clouds = ("Condition: " + data["weather"][0]["description"])
-		_temp = "Temperature: " + str(data["main"]["temp"] + "C")
-		_humidity = "Humidity: " + str(data["main"]["humidity"] + "%")
+		_temp = "Temperature: " + str(data["main"]["temp"]) + "C"
+		_humidity = "Humidity: " + str(data["main"]["humidity"]) + "%"
 		_cityID = data["id"]
 		payload = {'appid':weather_api_key,'q':query,'units':'metric'}
 		data = requests.get('http://api.openweathermap.org/data/2.5/forecast', params=payload).json()
-		_title2 = "3 Day Forecast:" 
-		_date1 = str(data['list'][3]['dt_txt']) 
+		_title2 = "3 Day Forecast---"
+		_date1 = str(data['list'][3]['dt_txt']) + "\n"
 		_date1, g1 = _date1.split(" ")
 		_day1 = "Temp: " + str(data['list'][3]['main']['temp_min']) + "C \n Condition: " + str(data['list'][3]['weather'][0]['description'])
-		_date2 = str(data['list'][11]['dt_txt']) 
+		_date2 = str(data['list'][11]['dt_txt']) + "\n"
 		_day3 = "Temp: " + str(data['list'][11]['main']['temp_min']) + "C \n Condition: " + str(data['list'][11]['weather'][0]['description'])
 		_date2, g2 = _date2.split(" ")
 		_day2 = "Temp: " + str(data['list'][19]['main']['temp_min']) + "C \n Condition: " + str(data['list'][19]['weather'][0]['description'])
-		_date3 = str(data['list'][19]['dt_txt'])
+		_date3 = str(data['list'][19]['dt_txt']) + "\n"
 		_date3, g3 = _date3.split(" ")
 		output = (_cityName + "\n" + _title1 + "\n" + _clouds + "\n" + _temp + "\n" + _humidity  + "\n" + _title2 + "\n" + _date1 + " " + _day1
 				+ "\n" + _date2 + " " + _day2 + "\n" + _date3 + " " + _day3)
