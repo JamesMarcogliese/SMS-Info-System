@@ -40,8 +40,9 @@ menu_option4_detail = ("Reply in the format below for news:\n"
 					   "Eg. 4 espn")
 
 menu_option5_detail = ("Reply in the format below for gas prices:\n"
-					   "'5' followed by location.\n"
-					   "Eg. 5 Mississauga")
+					   "'5' followed by location OR postal code.\n"
+					   "Eg. 5 Mississauga,Ontario\n"
+					   "Eg. 5 L6H5X6")
 
 area_codes = [403,780,250,604,204,506,709,867,902,416,519,613,705,807,905,418,
 450,514,819,306,587,778,431,782,647,226,343,249,289,581,579,438,873,639,825,236,437,365,600]
