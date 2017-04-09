@@ -19,30 +19,30 @@ main_menu = ("--Welcome to SIS--\n"
 			 "2 for Directions\n"
 			 "3 for Places of Interest\n"
 			 "4 for News\n"
-			 "5 for Gas Prices")
+			 "5 for Gas Prices\n")
 
 menu_option1_detail = ("Reply in the format below for weather:\n"
 					   "'1' followed by location.\n"
-					   "Eg. 1 Oakville,Ontario")
+					   "Eg. 1 Oakville,Ontario\n")
 
 menu_option2_detail = ("Reply in the format below for directions:\n"
 					   "'2' followed by start and end location separated by a slash.\n"
-					   "Eg. 2 123 Regal Ct,Oakville/56 Muns,Mississuaga")
+					   "Eg. 2 123 Regal Ct,Oakville/56 Muns,Mississuaga\n")
 
 menu_option3_detail = ("Reply in the format below for places:\n"
 					   "'3' followed by category and location separated by a slash.\n"
 					   "Eg. 3 Bank/Hamilton,Ontario\n"
-					   "Eg. 3 Food/Brampton,Ontario")
+					   "Eg. 3 Food/Brampton,Ontario\n")
 
 menu_option4_detail = ("Reply in the format below for news:\n"
 					   "'4' followed by news outlet name.\n"
 					   "Eg. 4 cnn\n"
-					   "Eg. 4 espn")
+					   "Eg. 4 espn\n")
 
 menu_option5_detail = ("Reply in the format below for gas prices:\n"
 					   "'5' followed by location OR postal code.\n"
 					   "Eg. 5 Mississauga,Ontario\n"
-					   "Eg. 5 L6H5X6")
+					   "Eg. 5 L6H5X6\n")
 
 area_codes = [403,780,250,604,204,506,709,867,902,416,519,613,705,807,905,418,
 450,514,819,306,587,778,431,782,647,226,343,249,289,581,579,438,873,639,825,236,437,365,600]

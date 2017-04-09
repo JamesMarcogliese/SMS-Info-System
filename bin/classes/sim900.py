@@ -109,17 +109,40 @@ class SIM900:
 
 		logger.info('Sending message...')
 		while (message.message_body):
-			message_part = message.message_body[:160]
-			logger.debug('Message part: %s' % message_part)
-			message.message_body = message.message_body[160:]
-			logger.debug('Remaining part: %s' % message.message_body)
-			self.ser.write('AT+CMGS=\"+%s\"\r' % message.address_field)	# Destination address
-			time.sleep(1)
-			self.ser.write("%s" % str(message_part)) # Message
-			time.sleep(1)
-			self.ser.write(chr(26))	# End of text requires (^Z)
-			logger.info('Message sent')
-			time.sleep(5)
+			temp_part = message.message_body[:160]
+
+			if ('\n' in temp_part):
+				nLines = temp_part.count('\n')
+				message_part = ''
+
+				for i in range (nLines):
+					message_part = message_part + re.findall(re.escape('') + "(.*)"+re.escape('\n'),temp_part)[i] + "\n"
+					logger.debug('Message part: %s' % message_part)
+
+				counter = len(message_part)
+				message.message_body = message.message_body[counter:]
+				logger.debug('Remaining part: %s' % message.message_body)
+				self.ser.write('AT+CMGS=\"+%s\"\r' % message.address_field)     # Destination address
+				time.sleep(1)
+				self.ser.write("%s" % str(message_part)) # Message
+				time.sleep(1)
+                        	self.ser.write(chr(26)) # End of text requires (^Z)
+                        	logger.info('Message sent')
+                        	time.sleep(5)
+
+			else:
+				message_part = temp_part
+				logger.debug('Message part: %s' % message_part)
+				counter = len(message_part)
+				message.message_body = message.message_body[counter:]
+				logger.debug('Remaining part: %s' % message.message_body)
+				self.ser.write('AT+CMGS=\"+%s\"\r' % message.address_field)     # Destination address
+                                time.sleep(1)
+                                self.ser.write("%s" % str(message_part)) # Message
+                                time.sleep(1)
+                                self.ser.write(chr(26)) # End of text requires (^Z)
+                                logger.info('Message sent')
+                                time.sleep(5)
 		return
 
 	def get_unread_messages(self):

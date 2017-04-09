@@ -45,7 +45,7 @@ def weather_call(query):
 		_date3 = str(data['list'][19]['dt_txt']) + "\n"
 		_date3, g3 = _date3.split(" ")
 		output = (_cityName + "\n" + _title1 + "\n" + _clouds + "\n" + _temp + "\n" + _humidity  + "\n" + _title2 + "\n" + _date1 + " " + _day1
-				+ "\n" + _date2 + " " + _day2 + "\n" + _date3 + " " + _day3)
+				+ "\n" + _date2 + " " + _day2 + "\n" + _date3 + " " + _day3 + "\n")
 		logger.debug('Results found')
 		return output
 	else:  #if no results found
@@ -66,7 +66,7 @@ def news_call(source):
 		for i in range (3):
 			_title = "Title: " + data['articles'][i]['title']
 			_desc =  "Description: " + data['articles'][i]['description']
-			output = "\n" + _title + "\n" + _desc
+			output =  _title + "\n" + _desc + "\n"
 	else:
 		output = "Unable to return results for news at this time."
 		logger.debug('ERROR with news query')
@@ -111,11 +111,11 @@ def places_call(place_type, address):
 				_phone = "Phone No: " +  r2['result']['formatted_phone_number']
 
 				if (place_type in place_types_dict):
-					output = output + "\n" + _name + "\n" + _address + "\n" + _phone
+					output = output + _name + "\n" + _address + "\n" + _phone + "\n"
 				else:   #for names not in dictionary
 					_rating = "Rating: " + str(r['results'][i]['rating'])
 					#_openStatus =  "Open: " + str(r['results'][i]['opening_hours']['open_now'])
-					output = output + "\n" + _name + "\n" + _address + "\n" + _rating + "\n" + _phone
+					output = output + _name + "\n" + _address + "\n" + _rating + "\n" + _phone + "\n"
 			elif ('permanently_closed' in r['results'][i]):
 				output = 'Place searched for is permanently closed.'
 				return output
@@ -167,7 +167,7 @@ def directions_call(start, end):
 			stepString = "Step " + str(i+1) + ": "+ instruction + "  [" + time + " (" + distance + ")]\n"
 			output = output + stepString
 		#concatenate start,end,total distance, and total time to final output
-		output = "\n" + _start + "\n" + _end + "\n" + _totalDist + "\n" + _totalTime + "\n" + output
+		output = _start + "\n" + _end + "\n" + _totalDist + "\n" + _totalTime + "\n" + output
 		logger.debug('Results found')
 		return output
 	else: #if no results found
