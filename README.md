@@ -32,14 +32,16 @@ sending and receiving of text messages to and from clients.
 
 PLEASE NOTE: RPi's serial debug interface must be disabled prior to use by the GSM Model shield.
 Browse to: /boot/firmware/cmdline.txt
-  > sudo cp /boot/firmware/cmdline.txt /boot/firmware/cmdline_backup.txt
-  > sudo nano /boot/firmware/cmdline.txt
+  * sudo cp /boot/firmware/cmdline.txt /boot/firmware/cmdline_backup.txt
+  * sudo nano /boot/firmware/cmdline.txt
+ 
 ORIGINAL FILE CONTENTS: 
 net.ifnames=0 dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait
 CHANGE CONTENTS TO:
 net.ifnames=0 dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait
-  > sudo cp /etc/init/ttyAMA0.conf /etc/init/ttyAMA0_backup.conf
-  > sudo nano /etc/init/ttyAMA0.conf
-COMMENT OUT:
+  * sudo cp /etc/init/ttyAMA0.conf /etc/init/ttyAMA0_backup.conf
+  * sudo nano /etc/init/ttyAMA0.conf
+  
+COMMENT OUT THE FOLLOWING LINES:
 stty -F /dev/ttyAMA0 -a 2> /dev/null > /dev/null || { stop ; exit 0; } 			
 exec /sbin/getty -L ttyAMA0 115200 vt102
