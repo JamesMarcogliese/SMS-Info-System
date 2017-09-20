@@ -17,17 +17,9 @@ board computer (Raspberry Pi 2) connected to the internet. A GSM module connecte
 sending and receiving of text messages to and from clients.
 
 <p align="center">
-  <img src="https://cloud.githubusercontent.com/assets/19783321/24681842/ecded3d6-1964-11e7-9713-67a1730d4521.png" width="200"/>
-  <img src="https://cloud.githubusercontent.com/assets/19783321/24681843/ece0cd08-1964-11e7-9a3d-c1715ff794dc.png" width="200"/>
-  
-  <img src="https://cloud.githubusercontent.com/assets/19783321/24681844/ece1d342-1964-11e7-96ea-951d66bec832.png" width="200"/>
-  <img src="https://cloud.githubusercontent.com/assets/19783321/24681845/ece289f4-1964-11e7-9f12-a5beecd7e517.png" width="200"/>
-  
-  <img src="https://cloud.githubusercontent.com/assets/19783321/24681846/ece6064c-1964-11e7-8bc8-9807a6fe81bb.png" width="200"/>
-  <img src="https://cloud.githubusercontent.com/assets/19783321/24681847/ece7bf1e-1964-11e7-97d2-255183399591.png" width="200"/>
-  
-  <img src="https://cloud.githubusercontent.com/assets/19783321/24681848/ecec11ae-1964-11e7-95e8-528f8d32cb9e.png" width="200"/>
-  <img src="https://cloud.githubusercontent.com/assets/19783321/24681849/ececd7ba-1964-11e7-9634-5d654513e20b.png" width="200"/>
+  <img src="https://user-images.githubusercontent.com/8539492/30645888-250c784e-9de5-11e7-9330-fe5883141ee6.png" width="200"/>
+  <img src="https://user-images.githubusercontent.com/8539492/30645906-34708e60-9de5-11e7-8cd0-7c8f459b19ee.png" width="200"/>
+  <img src="https://user-images.githubusercontent.com/8539492/30645915-3e7f095e-9de5-11e7-9576-f036a4ea7bc6.png" width="200"/>
 </p>
 
 PLEASE NOTE: RPi's serial debug interface must be disabled prior to use by the GSM Model shield.
